@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('/fonts/Raleway-Regular.ttf');
+  }
+  @font-face {
+    font-family: 'Raleway';
+    src: url('/fonts/Raleway-ExtraBold.ttf');
+    font-weight: 800;
+  }
+*{
+  scroll-behavior: smooth;
+
+}
+body{
+  background: #F9F6F4;
+    font-family: 'Raleway', sans-serif;
+    font-style: medium;
+  font-weight: normal;
+  font-display: swap;
+}
+
+.menu-item{
+    margin: 0 1.2rem;
+    transition: all 0.3s ease-in-out;
+    
+
+}
+
+.menu-item:hover{
+   transform: translateY(-0.3rem);
+}
+
+.btn{
+  border: none;
+}
+.mover-item{
+  animation: mover 4s ease-in-out infinite;
+}
+.grid-item{
+  transition: all 0.3s ease-in-out;
+}
+.grid-item:hover{
+  box-shadow: 5px 6px 25px rgba(0,0,0,0.1);
+  transform: translateY(-0.4rem);
+  scale: 1.03;
+}
+
+.scale-item{
+  animation: scaler 4s ease-in-out infinite;
+}
+.related-link{
+  transition: all 0.3s ease-in-out;
+ 
+}
+.related-link h3{
+  color: #f5821f;
+  font: 800 1.4rem 'Raleway', sans-serif;
+}
+.related-link span{
+  color: #a1a1a1;
+}
+.related-link:hover{
+  transform: translateY(-0.3rem);
+  color: #f5821f;
+  border-color: #f5821f;
+  
+}
+
+
+.service-item  button{
+  visibility:hidden;
+  font-weight: 500 !important;
+
+
+}
+.service-item:hover button{
+  transition: all 0.5s ease-in-out;
+  visibility:visible;
+}
+
+
+@keyframes mover {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-28px); }
+  100% { transform: translateY(0); }
+}
+@keyframes scaler {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+  
+}
