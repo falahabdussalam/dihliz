@@ -4,11 +4,13 @@ import Footer from "@/components/common/footer";
 import HeadTag from "@/components/common/head";
 import NavBar from "@/components/common/nav";
 import PageHeader from "@/components/common/page_header";
+import ToastBox from "@/components/common/toast";
 import getData from "@/functions/admission/getData";
 import login from "@/functions/admission/login";
 import updateStudent from "@/functions/admission/update";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 
 
@@ -61,7 +63,11 @@ function update(e:any){
     updateStudent(id, course, name, father, fatherOcc, mother, motherOcc, motherTongue, dob, permAddress, commAddress, phone1, phone2, whatsapp, examName, examBoard, passYear, schoolStudied, schoolPlace, Lang1, Lang2, English, Hindi, SocialScience, Physics, Chemistry, Biology, Maths, IT, mdExamName, mdExamBoard, mdPassYear, madrasaStudied, mdPlace, surahMemorized).then((res) => {
         setUpdating(false);
 
-        console.log(res);
+        if(res.data.status=="success"){
+            toast.success("Details Updated Successfully")
+        }else{
+            toast.error("Something went wrong")
+        }
         
     })
 }
@@ -123,23 +129,36 @@ function update(e:any){
     }
   },[])
  
-
+  function formatDate(date:any) {
+    const dateParts = date.split("-");
+    return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
+}
     const router = useRouter();
-
+  
 const labelClass = "block text-sm mt-4 mb-1"
 const h3Class = "text-2xl font-bold text-dihliz-500 mt-4 uppercase"
+const containerClass = "bg-white rounded-2xl border p-10 mt-4"
+const tdClass = "font-bold pr-2"
 
-    return (
-        <div >
+    return (<>
+        <div className="no-print">
             <HeadTag title="Admission - Dihliz World School"/>
              <NavBar active="Admission"/>
              <section className="px-8 lg:px-32 bg-lime-50">
-              <PageHeader title="Admission Dashboard"/>  
-<form className="w-full lg:w-5/12 m-auto" onSubmit={update}>
+              <PageHeader title="Admission Dashboard"/> 
+              <div className="flex justify-center mb-5">
+                <button className="btn btn-primary text-white"
+                onClick={()=>{
+                    window.print();
+                }}
+                >Print/Download Application</button>
+                </div> 
+<form className="w-full lg:w-6/12  m-auto " onSubmit={update}>
 {error.length>3 && <div className=" text-white  px-3 py-1 rounded-lg bg-red-600">{error}</div>}
 
     {/* COURSE APPLIED */}
-    <span className={labelClass}>Course Applied</span>
+    <section className={containerClass}>
+    <span className="text-dihliz-500 text-xl mb-3 uppercase">Course Applied</span>
     <select onChange={(e)=>setCourse(e.target.value)} value={course}  className="select select-bordered w-full">
         <option value="High School 8th">High School 8th</option>
         <option value="High School 9th">High School 9th</option>
@@ -147,7 +166,12 @@ const h3Class = "text-2xl font-bold text-dihliz-500 mt-4 uppercase"
         <option value="HSS Science">HSS Science</option>
     </select>
 
+    </section>
+ 
+
     {/* PERSONAL DETAILS */}
+    <section className={containerClass}>
+
     <h3 className={h3Class}>PERSONAL DETAILS</h3>
     <span className={labelClass}>Full Name</span>
     <input onChange={(e)=>setName(e.target.value)} value={name} className="input input-bordered w-full" type="text" placeholder="Full Name"/>
@@ -184,8 +208,13 @@ const h3Class = "text-2xl font-bold text-dihliz-500 mt-4 uppercase"
 
     <span className={labelClass}>Whatsapp Number</span>
     <input onChange={(e)=>setWhatsapp(e.target.value)} value={whatsapp} className="input input-bordered w-full" type="text" placeholder="Whatsapp Number"/>
+   
+    <input type="submit" value={updating?"Updating....":"UPDATE DETAILS"} className="btn btn-primary mt-4 text-white" disabled={updating}  />
 
+    </section>
     {/* EDUCATIONAL DETAILS */}
+    <section className={containerClass}>
+
     <h3 className={h3Class}>Details of Qualifying Examination</h3>
     <span className={labelClass}>Exam Name</span>
     <input onChange={(e)=>setExamName(e.target.value)} value={examName} className="input input-bordered w-full" type="text" placeholder="Exam Name"/>
@@ -201,9 +230,12 @@ const h3Class = "text-2xl font-bold text-dihliz-500 mt-4 uppercase"
 
     <span className={labelClass}>Place</span>
     <input onChange={(e)=>setSchoolPlace(e.target.value)}  value={schoolPlace} className="input input-bordered w-full" type="text" placeholder="Place"/>
+    <input type="submit" value={updating?"Updating....":"UPDATE DETAILS"} className="btn btn-primary mt-4 text-white" disabled={updating}  />
 
-
+    </section>
 {/* EXAM MARKS */}
+<section className={containerClass}>
+
     <h3 className={h3Class}>Marks of Qualifying Examination</h3>
     <span className={labelClass}>Language 1</span>
     <input onChange={(e)=>setLang1(e.target.value)} value={Lang1}  className="input input-bordered w-full" type="text" placeholder="Language 1"/>
@@ -236,11 +268,14 @@ const h3Class = "text-2xl font-bold text-dihliz-500 mt-4 uppercase"
     <span className={labelClass}>Social Science</span>
     <input onChange={(e)=>setSocialScience(e.target.value)} value={SocialScience}  className="input input-bordered w-full" type="text" placeholder="Social Science"/>
 
-   
+    <input type="submit" value={updating?"Updating....":"UPDATE DETAILS"} className="btn btn-primary mt-4 text-white" disabled={updating}  />
 
+    </section>
     {/* MADRASA DETAILS */}
+    <section className={containerClass}>
+
     <h3 className={h3Class}>Details of Islamic Education</h3>
-    <span className={labelClass}>Madrasa Name</span>
+    <span className={labelClass}>Exam Name</span>
     <input onChange={(e)=>setMdExamName(e.target.value)} value={mdExamName}  className="input input-bordered w-full" type="text" placeholder="Madrasa Name"/>
 
     <span className={labelClass}>Madrasa Board</span>
@@ -260,15 +295,151 @@ const h3Class = "text-2xl font-bold text-dihliz-500 mt-4 uppercase"
 
     
   <input type="submit" value={updating?"Updating....":"UPDATE DETAILS"} className="btn btn-primary mt-4 text-white" disabled={updating}  />
-
+  </section>
 </form>
+
+
 <div className="h-44"></div>
              </section>
               
 
              <Footer/>
-            
+            <ToastBox/>
         </div>
+{/* PRINT SECTION */}
+<section className="px-14 py-8 font-sans">
+    <img src="/img/letterhead.png" alt="" /> <br />
+    <h3 className="text-center text-3xl font-semibold py-3">Admission Application</h3> <br />
+
+
+<div> <b>Admission For:</b> {course}</div>
+    <h3 className="font-semibold text-xl mt-6 underline">PERSONAL INFORMATIONS</h3>   
+
+    <div className="flex justify-between">
+        <div>
+            <table>
+                <tr> <td className={tdClass}>Student Name:</td> <td>{name}</td> </tr>
+                <tr> <td className={tdClass}>Date of Birth:</td> <td>{dob && formatDate(dob)}</td> </tr>
+
+                <tr> <td className={tdClass}>Father Name:</td> <td>{father}</td> </tr>
+                <tr> <td className={tdClass}>Mother Name:</td> <td>{mother}</td> </tr>
+                <tr> <td className={tdClass}>Mother Tongue:</td> <td>{motherTongue}</td> </tr>
+                <tr> <td className={tdClass}>Permanent Addess:</td> <td>{permAddress}</td> </tr>
+                <tr> <td className={tdClass}>Communication Address:</td> <td>{commAddress}</td> </tr>
+                <tr> <td className={tdClass}>Primary Contact:</td> <td>{phone1}</td> </tr>
+                <tr> <td className={tdClass}>Secondary Contact:</td> <td>{phone2}</td> </tr>
+                <tr> <td className={tdClass}>Whatsapp:</td> <td>{whatsapp}</td> </tr>
+
+
+
+            </table>
+        </div>
+        <div>
+            <div className="flex justify-between items-center px-2 h-36 w-28 border border-black text-center">Attach Passport Photo</div>
+        </div>
+        </div>
+
+     <h3 className="font-semibold text-xl mt-6 underline">DETAILS OF QUALIFYING EXAMINATION</h3>  
+     <table>
+            <tr> <td className={tdClass}>Exam Name:</td> <td>{examName}</td> </tr>
+            <tr> <td className={tdClass}>Exam Board:</td> <td>{examBoard}</td> </tr>
+            <tr> <td className={tdClass}>Passing Year:</td> <td>{passYear}</td> </tr>
+            <tr> <td className={tdClass}>School Name:</td> <td>{schoolStudied}</td> </tr>
+            <tr> <td className={tdClass}>Place:</td> <td>{schoolPlace}</td> </tr>
+
+            </table>
+            <b>Marks Obtained</b>
+           <div className="marks-table">
+           <table>
+                <tr>
+                    <td>Lang 1</td>
+                    <td>Lang 2</td>
+                    <td>English</td>
+                    <td>Hindi</td>
+                    <td>IT</td>
+                </tr>
+                <tr>
+                    <td>{Lang1}</td>
+                    <td>{Lang2}</td>
+                    <td>{English}</td>
+                    <td>{Hindi}</td>
+                    <td>{IT}</td>
+
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>Math</td>
+                    <td>Physics</td>
+                    <td>Chemistry</td>
+                    <td>Biology</td>
+                    <td>Social Science</td>
+                </tr>
+                <tr>
+                    <td>{Maths}</td>
+                    <td>{Physics}</td>
+                    <td>{Chemistry}</td>
+                    <td>{Biology}</td>
+                    <td>{SocialScience}</td>
+                </tr>
+            </table>
+           </div>
+
+
+           <div style={{
+            pageBreakAfter: 'always'
+           }}></div>
+
+           {/* DETAILS OF ISLAMIC EDUCATION */}
+
+           <h3 className="font-semibold text-xl mt-6 underline">DETAILS OF ISLAMIC EDUCATION</h3>  
+           <table>
+            <tr> <td className={tdClass}>Exam Name:</td> <td>{mdExamName}</td> </tr>
+            <tr> <td className={tdClass}>Exam Board:</td> <td>{mdExamBoard}</td> </tr>
+            <tr> <td className={tdClass}>Passing Year:</td> <td>{mdPassYear}</td> </tr>
+            <tr> <td className={tdClass}>Madrasa Name:</td> <td>{madrasaStudied}</td> </tr>
+            <tr> <td className={tdClass}>Place:</td> <td>{mdPlace}</td> </tr>
+            <tr> <td className={tdClass}>No. of Surah Memorized:</td> <td>{surahMemorized}</td> </tr>
+            </table>
+<br />
+
+
+<h4  className="font-semibold text-xl mt-6 underline text-center">Declaration</h4>
+<div>
+I hereby declare that all the information furnished above is true and correct to the best of my knowledge and belief.
+<br />
+<br />
+Place: <br /> Date: <br />
+<div className="text-right italic">Name & Signature of Applicant</div>
+</div>
+<br /> 
+{/* PARENTS */}
+<div>
+I hereby certify that my ward and I shall follow all the rules, regulations and procedures laid down by the college
+from time to time. I hereby put my signature to confirm the above declarations<br />
+<br />
+<div className="text-right italic">Name & Signature of Guardian</div>
+</div>
+<br /> 
+
+<div className="border border-black p-10 mt-6 rounded-2xl">
+    <h3 className="font-semibold text-xl underline text-center">For office use only</h3> <br />
+   <ol>
+         <li>Reciept No: </li>
+            <li>Admission No: </li>
+            <li>Date of Admission: </li>
+            <li>Remarks: </li>
+   </ol>
+   <br />
+    <br />
+    <div className="flex justify-between italic">
+        <div>Office Seal </div>
+        <div>Signature of Principal</div>
+    </div>
+<br /> <br /> <br />
+</div>
+</section>
+        </>
     );
 }
 

@@ -23,8 +23,8 @@ const router = useRouter();
     ];
     return (
         <div className="bg-lime-50 px-8 lg:px-32 py-12 ">
-                       <h1 className="text-3xl font-bold text-lime-600 text-center" data-aos="fade-left"  data-aos-delay="500">
-                      Courses Offered at DIHLIZ 
+                       <h1 className="text-3xl font-semibold text-lime-600 text-center" data-aos="fade-left"  data-aos-delay="500">
+                      Programs Offered at DIHLIZ 
                        </h1>
 <br />
             <section className="grid lg:grid-cols-3 gap-10" data-aos="fade-up"  data-aos-delay="700">

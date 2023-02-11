@@ -24,14 +24,14 @@ const About = () => {
             </p>
            
 <div className="flex ">
-<button onClick={()=>router.push('/about')} className="btn btn-primary bg-dihliz-500 hover:bg-dihliz-600" 
+<button onClick={()=>router.push('/about')} className="btn btn-primary  text-white" 
              data-aos="fade-up"  data-aos-delay="800">Know More</button>
 
 <button onClick={()=>
 {
   window.open("https://www.youtube.com/watch?v=IN3Re5tJzFE", "_blank");
 }
-} className="btn btn-primary bg-lime-500 hover:bg-lime-600 ml-2" 
+} className="btn btn-primary bg-lime-500 hover:bg-lime-600 ml-2 text-white" 
              data-aos="fade-up"  data-aos-delay="800">Watch Promo</button> 
 </div>
 

@@ -71,7 +71,7 @@ style={{ height: "100%", width: "100%", objectFit: "cover",
 
         </div>
        
-       <a className="btn bg-dihliz-500 text-white mt-8" data-aos="fade-up" data-aos-delay="1000" 
+       <a className="btn btn-primary text-white mt-8" data-aos="fade-up" data-aos-delay="1000" 
        href="#about"
        >Explore</a>
        </div>

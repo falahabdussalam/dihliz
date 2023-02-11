@@ -94,3 +94,38 @@ body{
   100% { transform: scale(1); }
   
 }
+
+.no-screen{
+  display: none;
+}
+.marks-table table{
+  width: 100%;
+  margin-bottom: 10px;
+}
+.marks-table td{
+border: 1px solid #000;
+padding: 0.5rem;
+}
+/* print css */
+@media print {
+
+  @page {
+    size: auto;  /*A4 */
+    margin: 0;  /* this affects the margin in the printer settings */
+}
+
+  .no-print, .no-print *
+  {
+    display: none !important;
+  }
+  .print-w-full{
+    width: 100% !important;
+  }
+  .print-no-pad{
+    padding: 0 !important;
+
+  }
+  .print-no-shadow{
+    box-shadow: none !important;
+  }
+}
