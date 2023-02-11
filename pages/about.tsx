@@ -59,7 +59,7 @@ DIHLIZ prioritizes quality, values and ethos. It engages students in the cogniti
             <div key={index} className="border bg-lime-50 border-lime-500 rounded-2xl p-8 grid-item flex flex-col
               justify-center items-center cursor-pointer">
                 <img src={`/img/directors/${member.img}`} className="rounded-3xl w-40 h-40 mx-auto mb-3" alt="" /> 
-                <h2 className="text-xl font-bold text-dihliz-500">{member.name}</h2>
+                <h2 className="text-xl font-bold text-dihliz-500 text-center">{member.name}</h2>
                 {/* <p className="text-gray-500">{member.position}</p> */}
                 
             </div>

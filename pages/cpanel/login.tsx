@@ -107,7 +107,7 @@ const [connError, setConnError] = useState(false);
                 type="text"
                 autoComplete="off"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-dihliz-500 focus:border-dihliz-500 focus:z-10 sm:text-sm"
+                className="bg-white appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-dihliz-500 focus:border-dihliz-500 focus:z-10 sm:text-sm"
                 placeholder="Email"
                 onChange={e => setEmail(e.target.value)}
               />
@@ -122,7 +122,7 @@ const [connError, setConnError] = useState(false);
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-dihliz-500 focus:border-dihliz-500 focus:z-10 sm:text-sm"
+                className="bg-white appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-dihliz-500 focus:border-dihliz-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 onChange={e => setPassword(e.target.value)}
               />
