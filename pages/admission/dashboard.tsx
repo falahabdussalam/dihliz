@@ -307,7 +307,7 @@ const tdClass = "font-bold pr-2"
             <ToastBox/>
         </div>
 {/* PRINT SECTION */}
-<section className="px-14 py-8 font-sans">
+<section className="px-14 py-8 font-sans no-screen">
     <img src="/img/letterhead.png" alt="" /> <br />
     <h3 className="text-center text-3xl font-semibold py-3">Admission Application</h3> <br />
 

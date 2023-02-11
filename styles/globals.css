@@ -128,4 +128,7 @@ padding: 0.5rem;
   .print-no-shadow{
     box-shadow: none !important;
   }
+  .no-screen{
+    display: block !important;
+  }
 }
