@@ -7,7 +7,7 @@ const About = () => {
               <section className="flex justify-center py-20">
                
             <img src="/img/about1.jpg" 
-            className="w-7/12 rounded-2xl mover-item hover:scale-125 duration-500"  data-aos="fade-right"  data-aos-delay="300"  alt="" />
+            className="w-full lg:w-7/12 rounded-2xl mover-item hover:scale-125 duration-500"  data-aos="fade-right"  data-aos-delay="300"  alt="" />
            </section>
            <section className="flex items-center">
            <div>
