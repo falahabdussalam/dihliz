@@ -25,7 +25,7 @@ const AdminIndex = () => {
 const menu:Array<any> = [
     {title:"CPanel Home",ico:"🏠", link:'/cpanel'},
     {title:"Gallery",ico:"🖼️", link:'/cpanel/gallery'},
-    {title:"Admissions",ico:"📄", link:'/cpanel/orders'},
+    {title:"Admissions",ico:"📄", link:'/cpanel/admission'},
     {title:"News & Events",ico:"📰", link:'/cpanel/news'},
 
 

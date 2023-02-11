@@ -6,6 +6,8 @@ import NavBar from "@/components/common/nav";
 import PageHeader from "@/components/common/page_header";
 import ToastBox from "@/components/common/toast";
 import getData from "@/functions/admission/getData";
+import getDataByParams from "@/functions/admission/getByParams";
+
 import login from "@/functions/admission/login";
 import updateStudent from "@/functions/admission/update";
 import { useRouter } from "next/router";
@@ -71,69 +73,80 @@ function update(e:any){
         
     })
 }
+const router = useRouter();
 
-   
+const {query} = router;
+
   useEffect(() => {
-    let phoneData = localStorage.getItem('phone');
-    let dobData = localStorage.getItem('dob');
-    if(phoneData && dobData){
-        
-
-        getData().then((res) => {
-
-            if(res){
-                let data = res.data.data;
-                setId(data.id);
-                setCourse(data.course);
-                setName(data.name);
-                setFather(data.father);
-                setFatherOcc(data.fatherOcc);
-                setMother(data.mother);
-                setMotherOcc(data.motherOcc);
-                setMotherTongue(data.motherTongue);
-                setDob(data.dob);
-                setPermAddress(data.permAddress);
-                setCommAddress(data.commAddress);
-                setPhone1(data.phone1);
-                setPhone2(data.phone2);
-                setWhatsapp(data.whatsapp);
-                setExamName(data.examName);
-                setExamBoard(data.examBoard);
-                setPassYear(data.passYear);
-                setSchoolStudied(data.schoolStudied);
-                setSchoolPlace(data.schoolPlace);
-                setLang1(data.Lang1);
-                setLang2(data.Lang2);
-                setEnglish(data.English);
-                setHindi(data.Hindi);
-                setSocialScience(data.SocialScience);
-                setPhysics(data.Physics);
-                setChemistry(data.Chemistry);
-                setBiology(data.Biology);
-                setMaths(data.Maths);
-                setIT(data.IT);
-                setMdExamName(data.mdExamName);
-                setMdExamBoard(data.mdExamBoard);
-                setMdPassYear(data.mdPassYear);
-                setMadrasaStudied(data.madrasaStudied);
-                setMdPlace(data.mdPlace);
-                setSurahMemorized(data.surahMemorized);
-            }else{
-            }
-            
-            
-
-        })
-    }else{
-        router.push("/admission")
-    }
+    setAllData();
   },[])
  
+async function setAllData(){
+    let asyncData;
+    if(query && query.admPhone && query.admDob){
+        asyncData = await getDataByParams(query.admPhone, query.admDob);
+    }else{
+        let phoneData = localStorage.getItem('phone');
+    let dobData = localStorage.getItem('dob');
+
+    if(phoneData && dobData){
+        asyncData = await getData();
+    }else{
+        router.push("/admission")
+        return;
+    }
+        
+    }
+    
+        if(asyncData){
+            let data = asyncData.data.data;
+            setId(data.id);
+            setCourse(data.course);
+            setName(data.name);
+            setFather(data.father);
+            setFatherOcc(data.fatherOcc);
+            setMother(data.mother);
+            setMotherOcc(data.motherOcc);
+            setMotherTongue(data.motherTongue);
+            setDob(data.dob);
+            setPermAddress(data.permAddress);
+            setCommAddress(data.commAddress);
+            setPhone1(data.phone1);
+            setPhone2(data.phone2);
+            setWhatsapp(data.whatsapp);
+            setExamName(data.examName);
+            setExamBoard(data.examBoard);
+            setPassYear(data.passYear);
+            setSchoolStudied(data.schoolStudied);
+            setSchoolPlace(data.schoolPlace);
+            setLang1(data.Lang1);
+            setLang2(data.Lang2);
+            setEnglish(data.English);
+            setHindi(data.Hindi);
+            setSocialScience(data.SocialScience);
+            setPhysics(data.Physics);
+            setChemistry(data.Chemistry);
+            setBiology(data.Biology);
+            setMaths(data.Maths);
+            setIT(data.IT);
+            setMdExamName(data.mdExamName);
+            setMdExamBoard(data.mdExamBoard);
+            setMdPassYear(data.mdPassYear);
+            setMadrasaStudied(data.madrasaStudied);
+            setMdPlace(data.mdPlace);
+            setSurahMemorized(data.surahMemorized);
+        }else{
+        }
+        
+        
+
+    
+}
+
   function formatDate(date:any) {
     const dateParts = date.split("-");
     return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
 }
-    const router = useRouter();
   
 const labelClass = "block text-sm mt-4 mb-1"
 const h3Class = "text-2xl font-bold text-dihliz-500 mt-4 uppercase"
