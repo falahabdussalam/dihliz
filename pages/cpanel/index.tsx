@@ -24,9 +24,10 @@ const AdminIndex = () => {
 
 const menu:Array<any> = [
     {title:"CPanel Home",ico:"🏠", link:'/cpanel'},
-    {title:"Services",ico:"🧩", link:'/cpanel/services'},
     {title:"Gallery",ico:"🖼️", link:'/cpanel/gallery'},
-    {title:"Orders",ico:"📄", link:'/cpanel/orders'},
+    {title:"Admissions",ico:"📄", link:'/cpanel/orders'},
+    {title:"News & Events",ico:"📰", link:'/cpanel/news'},
+
 
 ];
 
@@ -34,7 +35,7 @@ const router  = useRouter();
 
 if(!isLoaded) return <PageLoading/>
     return (
-        <div className="h-screen bg-pale-50">
+        <div className="h-screen bg-lime-50">
            <HeadTag title="Admin Panel - Dihliz World School"/>
          <AdminNavBar active="Admin Home"/>  
        

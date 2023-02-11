@@ -8,9 +8,10 @@ const AdminNavBar = ({active}:{active:String})=>{
     const [isOpen, setOpen] = useState(false)
 const navLinks = [
     {title:"Admin Home",link:'/cpanel'},
-    {title:"Services",link:'/cpanel/services'},
+    {title:"Admission",link:'/cpanel/admission'},
     {title:"Gallery",link:'/cpanel/gallery'},
-    {title:"Orders",link:'/cpanel/orders'},
+    {title:"News & Events",link:'/cpanel/news'},
+
     {title:"🔌 Logout",link:'logout'},
 
 
@@ -27,7 +28,7 @@ useEffect(()=>{
    
 
 <nav className="px-10 lg:px-32 py-4 flex justify-between items-center fixed z-40 w-full bg-white shadow-sm">
-<img src="/img/top.png" className="w-28" alt=""
+<img src="/img/top.png" className="h-16" alt=""
 onClick={()=>router.push('/')
 }
 />
