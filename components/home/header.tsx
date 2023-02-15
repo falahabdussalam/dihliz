@@ -65,7 +65,7 @@ style={{ height: "100%", width: "100%", objectFit: "cover",
        <div className="w-full text-center">
         <img src="/img/white.png" className="w-52 m-auto" data-aos="fade-down" data-aos-delay="300" alt="Dihliz World School" />
        <h1 className="text-lime-500 font-bold text-3xl" data-aos="fade-down" data-aos-delay="500" >Dihliz World School  </h1>
-        <div className="lg:w-6/12 m-auto text-center text-white" data-aos="fade-down" data-aos-delay="700" >
+        <div className="px-10 lg:w-6/12 m-auto text-center text-white" data-aos="fade-down" data-aos-delay="700" >
         A Global Gateway to the Cutting - Edge Schooling with a vision that called for creating, molding and developing 
         ethically sound professionals in the fields concerned.
 

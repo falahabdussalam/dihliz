@@ -31,7 +31,7 @@ const courses:Array<any> = [
         </div>
     },
     {
-        name:"HIGHER SECONDARY COMMERCE",
+        name:"HIGHER SECONDARY SCIENCE",
         sub:"With Medical, Engineering Coaching",
         img:"hssscience.jpg",
         body:<div>

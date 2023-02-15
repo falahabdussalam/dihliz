@@ -74,7 +74,7 @@ onClick={(e)=>{
     router.push(link.link);
 }}
 >
-{/* <AiOutlineArrowRight className="mr-3"/> */}
+<AiOutlineArrowRight className="mr-3"/>
 
 <img src="/img/icon.png"  className="w-4 mr-3" alt="" />
      {link.title}</a>

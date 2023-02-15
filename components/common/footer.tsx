@@ -4,11 +4,11 @@ const Footer = () => {
     const links:Array<any>= [
         {title:"Home",link:'/'},
         {title:"About",link:'/about'},
-        {title:"Services",link:'/services'},
-        {title:"Clients",link:'/clients'},
+        {title:"Academics",link:'/academics'},
+        {title:"Admission",link:'/admission'},
+        // {title:"Campus Life",link:'/campus'},
         {title:"Gallery",link:'/gallery'},
         {title:"Contact",link:'/contact'},
-        // {title:"FAQ", to:"/faq"},
 
     ];
     const router = useRouter();

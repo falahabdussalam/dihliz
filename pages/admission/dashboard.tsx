@@ -365,11 +365,11 @@ const tdClass = "font-bold pr-2"
            <div className="marks-table">
            <table>
                 <tr>
-                    <td>Lang 1</td>
-                    <td>Lang 2</td>
-                    <td>English</td>
-                    <td>Hindi</td>
-                    <td>IT</td>
+                    <td><b>Lang 1</b></td>
+                    <td><b>Lang 2</b></td>
+                    <td><b>English</b></td>
+                    <td><b>Hindi</b></td>
+                    <td><b>IT</b></td>
                 </tr>
                 <tr>
                     <td>{Lang1}</td>
@@ -379,14 +379,13 @@ const tdClass = "font-bold pr-2"
                     <td>{IT}</td>
 
                 </tr>
-            </table>
-            <table>
+           
                 <tr>
-                    <td>Math</td>
-                    <td>Physics</td>
-                    <td>Chemistry</td>
-                    <td>Biology</td>
-                    <td>Social Science</td>
+                    <td><b>Math</b></td>
+                    <td><b>Physics</b></td>
+                    <td><b>Chemistry</b></td>
+                    <td><b>Biology</b></td>
+                    <td><b>Social Science</b></td>
                 </tr>
                 <tr>
                     <td>{Maths}</td>
