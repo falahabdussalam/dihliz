@@ -3,7 +3,7 @@
 import { API_KEY, ROOT_URL } from "@/data/const";
 import axios from 'axios';
 
-const updateStudent = async(id:string, course:string, name:string, father:string, fatherOcc:string, mother:string, motherOcc:string, motherTongue:string, dob:string, permAddress:string, commAddress:string, phone1:string, phone2:string, whatsapp:string, examName:string, examBoard:string, passYear:string, schoolStudied:string, schoolPlace:string, Lang1:string, Lang2:string, English:string, Hindi:string, SocialScience:string, Physics:string, Chemistry:string, Biology:string, Maths:string, IT:string, mdExamName:string, mdExamBoard:string, mdPassYear:string, madrasaStudied:string, mdPlace:string, surahMemorized:string
+const updateStudent = async(id:string, course:string, name:string, father:string, fatherOcc:string, mother:string, motherOcc:string, motherTongue:string, dob:string, permAddress:string, commAddress:string, phone1:string, phone2:string,email:string, whatsapp:string, examName:string, examBoard:string, passYear:string, schoolStudied:string, schoolPlace:string, Lang1:string, Lang2:string, English:string, Hindi:string, SocialScience:string, Physics:string, Chemistry:string, Biology:string, Maths:string, IT:string, mdExamName:string, mdExamBoard:string, mdPassYear:string, madrasaStudied:string, mdPlace:string, surahMemorized:string
     ) =>{
         const URL = `${ROOT_URL}/admission/update.php`;
       const formData = new FormData();
@@ -21,6 +21,7 @@ const updateStudent = async(id:string, course:string, name:string, father:string
         formData.append('commAddress',commAddress)
         formData.append('phone1',phone1)
         formData.append('phone2',phone2)
+        formData.append('email',email)
         formData.append('whatsapp',whatsapp)
         formData.append('examName',examName)
         formData.append('examBoard',examBoard)

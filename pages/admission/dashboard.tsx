@@ -33,6 +33,8 @@ const Admission = () => {
     const [commAddress, setCommAddress] = useState<string>('');
     const [phone1, setPhone1] = useState<string>('');
     const [phone2, setPhone2] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+
     const [whatsapp, setWhatsapp] = useState<string>('');
     const [examName, setExamName] = useState<string>('');
     const [examBoard, setExamBoard] = useState<string>('');
@@ -62,8 +64,9 @@ const Admission = () => {
 function update(e:any){
     e.preventDefault();
     setUpdating(true);
-    updateStudent(id, course, name, father, fatherOcc, mother, motherOcc, motherTongue, dob, permAddress, commAddress, phone1, phone2, whatsapp, examName, examBoard, passYear, schoolStudied, schoolPlace, Lang1, Lang2, English, Hindi, SocialScience, Physics, Chemistry, Biology, Maths, IT, mdExamName, mdExamBoard, mdPassYear, madrasaStudied, mdPlace, surahMemorized).then((res) => {
+    updateStudent(id, course, name, father, fatherOcc, mother, motherOcc, motherTongue, dob, permAddress, commAddress, phone1, phone2,email, whatsapp, examName, examBoard, passYear, schoolStudied, schoolPlace, Lang1, Lang2, English, Hindi, SocialScience, Physics, Chemistry, Biology, Maths, IT, mdExamName, mdExamBoard, mdPassYear, madrasaStudied, mdPlace, surahMemorized).then((res) => {
         setUpdating(false);
+console.log(res.data);
 
         if(res.data.status=="success"){
             toast.success("Details Updated Successfully")
@@ -113,6 +116,7 @@ async function setAllData(){
             setCommAddress(data.commAddress);
             setPhone1(data.phone1);
             setPhone2(data.phone2);
+            setEmail(data.email);
             setWhatsapp(data.whatsapp);
             setExamName(data.examName);
             setExamBoard(data.examBoard);
@@ -218,6 +222,9 @@ const tdClass = "font-bold pr-2"
 
     <span className={labelClass}>Phone 2</span>
     <input onChange={(e)=>setPhone2(e.target.value)} value={phone2} className="input input-bordered w-full" type="text" placeholder="Phone 2"/>
+
+    <span className={labelClass}>Email</span>
+    <input onChange={(e)=>setEmail(e.target.value)} value={email} className="input input-bordered w-full" type="text" placeholder="Email Id"/>
 
     <span className={labelClass}>Whatsapp Number</span>
     <input onChange={(e)=>setWhatsapp(e.target.value)} value={whatsapp} className="input input-bordered w-full" type="text" placeholder="Whatsapp Number"/>

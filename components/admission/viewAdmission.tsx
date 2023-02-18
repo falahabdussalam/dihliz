@@ -1,3 +1,5 @@
+import { AiOutlinePrinter } from "react-icons/ai"
+
 const ViewAdmission = (props:any) => {
 
 
@@ -15,12 +17,15 @@ function formatDate(date:any) {
 
 
     return (
-        <div>
+        <div className="no-print">
            <input type="checkbox" id="viewAdmission" className="modal-toggle" />
 <label htmlFor="viewAdmission" className="modal cursor-pointer">
   <label className="modal-box relative" htmlFor="">
 {
     props.data && <div>
+        <button className="btn btn-primary btn-sm text-white font-normal mb-3"
+        onClick={() => window.print()}
+        ><AiOutlinePrinter className="text-xl mr-2"/> Print Application</button>
           <h3 className="text-2xl font-bold text-dihliz-600">{data.name}</h3>
    
 

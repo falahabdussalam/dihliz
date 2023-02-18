@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { API_KEY, ROOT_URL } from "@/data/const";
 import HeadTag from "@/components/common/head";
 import ViewAdmission from "@/components/admission/viewAdmission";
+import PrintApplcation from "@/components/admission/print";
 
 const Services = () => {
 
@@ -56,7 +57,7 @@ if(!isLoaded) return <PageLoading/>
 
           <AdminNavBar active="Admission"/> 
 
-        <div className="min-h-screen bg-lime-50 px-10 lg:px-32 pb-20">
+        <div className="min-h-screen bg-lime-50 px-10 lg:px-32 pb-20 no-print">
            
 
          <div className="h-20 w-full"></div>
@@ -82,7 +83,10 @@ if(!isLoaded) return <PageLoading/>
       }
             </main> 
             <ViewAdmission data={curAdmission}/>
-        </div></>
+            
+        </div>
+        <PrintApplcation data={curAdmission}/>
+        </>
     );
 }
 

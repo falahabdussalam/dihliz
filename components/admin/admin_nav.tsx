@@ -24,7 +24,7 @@ useEffect(()=>{
 
     return (
        
-<section id='nav'>
+<section id='nav' className="no-print">
    
 
 <nav className="px-10 lg:px-32 py-4 flex justify-between items-center fixed z-40 w-full bg-white shadow-sm">
