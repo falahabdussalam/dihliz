@@ -5,10 +5,12 @@ import AdminNavBar from "@/components/admin/admin_nav";
 import { useRouter } from "next/router";
 import { API_KEY, ROOT_URL } from "@/data/const";
 import HeadTag from "@/components/common/head";
+import ViewAdmission from "@/components/admission/viewAdmission";
 
 const Services = () => {
 
     const [isLoaded,setIsLoaded] = useState<boolean>(false);
+    const [curAdmission, setCurAdmission] = useState<any>(null);
     useEffect(()=>{
       isLogged().then((res)=>{
         if(res){
@@ -62,23 +64,24 @@ if(!isLoaded) return <PageLoading/>
          <main className="w-full"> 
        {
         quotes.map((applic:any, index:number)=>{
-          return <div key={index} 
+          return <div  key={index} 
+          onClick={()=>{
+            setCurAdmission(applic);
+            document.getElementById(`viewAdmission`)?.click()
+          }}
           className="bg-white p-4 my-4 rounded shadow w-full lg:w-6/12 grid-item cursor-pointer">
            <h2 className="font-bold text-dihliz-500"> {applic.name}</h2>
             <div><small className="text-gray-500">Course: </small> {applic.course}</div>
             <div><small className="text-gray-500">Contact: </small> {applic.phone1}</div>
             <div><small className="text-gray-500">WhatsApp: </small> {applic.whatsapp}</div>
-<button className="btn btn-primary btn-sm mt-3 text-white"
-onClick={()=>{
-  window.open(`/admission/dashboard?admPhone=${applic.phone1}&admDob=${applic.dob}`,'_blank')
-}}
->View/Edit</button>
+
 
             
           </div>
        })
       }
             </main> 
+            <ViewAdmission data={curAdmission}/>
         </div></>
     );
 }
