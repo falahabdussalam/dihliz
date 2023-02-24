@@ -6,6 +6,7 @@ import { ROOT_URL,UPLOADS_URL } from "@/data/const";
 import Dialog from "@/components/widgets/dialog";
 import { API_KEY } from "@/data/const";
 import isLogged from "@/functions/isLogged";
+import HeadTag from "@/components/common/head";
 
 const NewsEventsAdmin = () => {
 
@@ -58,6 +59,7 @@ useEffect(() => {
 if(!isLoaded) return <PageLoading/>
     return (
         <>
+        <HeadTag title="News/Events/Programs"/>
           <AdminNavBar active="News/Programs"/>  
         <div className="h-screen bg-pale-50 px-10 lg:px-32">
            

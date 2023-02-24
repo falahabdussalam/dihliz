@@ -6,8 +6,8 @@ import Head from 'next/head'
 import { API_KEY } from '@/data/const';
 import { ROOT_URL } from '@/data/const';
 import PageLoading from '@/components/widgets/loading';
-import isLogged from '@/function/isLogged';
 import 'react-quill/dist/quill.snow.css';
+import isLogged from '@/functions/isLogged';
 
 const EditService = () => {
 
