@@ -6,6 +6,7 @@ const PrintApplcation = (props:any) => {
         const dateParts = date.split("-");
         return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
     }
+    if (!data) return <div></div>
     return (
 <section className="px-14 py-8 font-sans no-screen">
     <img src="/img/letterhead.png" alt="" /> <br />
