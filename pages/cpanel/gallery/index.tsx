@@ -75,8 +75,8 @@ const Gallery = () => {
 
                             
                                 </div>
-                                <div>
-                                    {blg.title} 
+                                <div className='p-2'>
+                                    {blg.title} <br />
                                     <button
                                     
 onClick={()=>{
