@@ -63,13 +63,22 @@ const Admission = () => {
 
 function update(e:any){
     e.preventDefault();
+   
     setUpdating(true);
     updateStudent(id, course, name, father, fatherOcc, mother, motherOcc, motherTongue, dob, permAddress, commAddress, phone1, phone2,email, whatsapp, examName, examBoard, passYear, schoolStudied, schoolPlace, Lang1, Lang2, English, Hindi, SocialScience, Physics, Chemistry, Biology, Maths, IT, mdExamName, mdExamBoard, mdPassYear, madrasaStudied, mdPlace, surahMemorized).then((res) => {
         setUpdating(false);
 console.log(res.data);
 
         if(res.data.status=="success"){
-            toast.success("Details Updated Successfully")
+            if(course.length<1){
+                toast.error("Please select the course applying for.")
+            }
+            else if(name.length<1 || father.length<1 || mother.length<1){
+                toast.error("Please fill all the required fields.")
+            }else{
+                toast.success("Details Updated Successfully")
+        
+            }
         }else{
             toast.error("Something went wrong")
         }
