@@ -10,11 +10,13 @@ const About = () => {
             className="w-full lg:w-7/12 rounded-2xl mover-item hover:scale-125 duration-500"  data-aos="fade-right"  data-aos-delay="300"  alt="" />
            */}
           <div className="w-full lg:w-10/12">
-          <iframe width="100%" height="315" src="https://www.youtube.com/embed/oZSIO4-Ebas" 
-          title="YouTube video player" 
+          <iframe width="100%" height="315" 
+          src="https://www.youtube.com/embed/oZSIO4-Ebas" 
+          title="Dihliz World School" 
           className="rounded-2xl  hover:scale-105 duration-500 shadow-md"  
-          // data-aos="fade-right"  data-aos-delay="300"
+          data-aos="fade-right"  data-aos-delay="300"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          
           allowFullScreen></iframe>
           </div>
           
