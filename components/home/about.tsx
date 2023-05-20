@@ -6,8 +6,18 @@ const About = () => {
         <div className="px-8 lg:px-32 py-20 grid lg:grid-cols-2 bg-white" id="about">
               <section className="flex justify-center py-20">
                
-            <img src="/img/about1.jpg" 
+            {/* <img src="/img/about1.jpg" 
             className="w-full lg:w-7/12 rounded-2xl mover-item hover:scale-125 duration-500"  data-aos="fade-right"  data-aos-delay="300"  alt="" />
+           */}
+          <div className="w-full lg:w-10/12">
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/oZSIO4-Ebas" 
+          title="YouTube video player" 
+          className="rounded-2xl  hover:scale-105 duration-500 shadow-md"  
+          // data-aos="fade-right"  data-aos-delay="300"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowFullScreen></iframe>
+          </div>
+          
            </section>
            <section className="flex items-center">
            <div>
