@@ -185,7 +185,7 @@ const tdClass = "font-bold pr-2"
     {/* COURSE APPLIED */}
     <section className={containerClass}>
     <span className="text-dihliz-500 text-xl mb-3 uppercase">Course Applied</span>
-    <select onChange={(e)=>setCourse(e.target.value)} value={course}  className="select select-bordered w-full">
+    <select onChange={(e)=>setCourse(e.target.value)} value={course}  className="select select-bordered w-full" required>
         <option value="High School 8th">High School 8th</option>
         <option value="High School 9th">High School 9th</option>
         <option value="HSS Commerce">HSS Commerce</option>
@@ -200,10 +200,10 @@ const tdClass = "font-bold pr-2"
 
     <h3 className={h3Class}>PERSONAL DETAILS</h3>
     <span className={labelClass}>Full Name</span>
-    <input onChange={(e)=>setName(e.target.value)} value={name} className="input input-bordered w-full" type="text" placeholder="Full Name"/>
+    <input onChange={(e)=>setName(e.target.value)} value={name} className="input input-bordered w-full" type="text" placeholder="Full Name" required/>
 
     <span className={labelClass}>Father's Name</span>
-    <input onChange={(e)=>setFather(e.target.value)} value={father} className="input input-bordered w-full" type="text" placeholder="Father's Name"/>
+    <input onChange={(e)=>setFather(e.target.value)} value={father} className="input input-bordered w-full" type="text" placeholder="Father's Name" required/>
 
     <span className={labelClass}>Father's Occupation</span>
     <input onChange={(e)=>setFatherOcc(e.target.value)} value={fatherOcc} className="input input-bordered w-full" type="text" placeholder="Father's Occupation"/>
@@ -215,10 +215,10 @@ const tdClass = "font-bold pr-2"
     <input onChange={(e)=>setMotherOcc(e.target.value)} value={motherOcc}  className="input input-bordered w-full" type="text" placeholder="Mother's Occupation"/>
 
     <span className={labelClass}>Mother Tongue</span>
-    <input onChange={(e)=>setMotherTongue(e.target.value)} value={motherTongue} className="input input-bordered w-full" type="text" placeholder="Mother Tongue"/>
+    <input onChange={(e)=>setMotherTongue(e.target.value)} value={motherTongue} className="input input-bordered w-full" type="text" placeholder="Mother Tongue" required/>
 
     <span className={labelClass}>Date of Birth</span>
-    <input onChange={(e)=>setDob(e.target.value)} value={dob} className="input input-bordered w-full" type="date" placeholder="Date of Birth"/>
+    <input onChange={(e)=>setDob(e.target.value)} value={dob} className="input input-bordered w-full" type="date" placeholder="Date of Birth" required/>
 
     <span className={labelClass}>Permanent Address</span>
     <textarea onChange={(e)=>setPermAddress(e.target.value)} value={permAddress} className="textarea h-24 textarea-bordered w-full" placeholder="Permanent Address"></textarea>
@@ -227,7 +227,7 @@ const tdClass = "font-bold pr-2"
     <textarea onChange={(e)=>setCommAddress(e.target.value)} value={commAddress} className="textarea h-24 textarea-bordered w-full" placeholder="Communication Address"></textarea>
 
     <span className={labelClass}>Phone 1</span>
-    <input onChange={(e)=>setPhone1(e.target.value)} value={phone1} className="input input-bordered w-full" type="text" placeholder="Phone 1"/>
+    <input onChange={(e)=>setPhone1(e.target.value)} value={phone1} className="input input-bordered w-full" type="text" placeholder="Phone 1" required/>
 
     <span className={labelClass}>Phone 2</span>
     <input onChange={(e)=>setPhone2(e.target.value)} value={phone2} className="input input-bordered w-full" type="text" placeholder="Phone 2"/>
@@ -236,7 +236,7 @@ const tdClass = "font-bold pr-2"
     <input onChange={(e)=>setEmail(e.target.value)} value={email} className="input input-bordered w-full" type="text" placeholder="Email Id"/>
 
     <span className={labelClass}>Whatsapp Number</span>
-    <input onChange={(e)=>setWhatsapp(e.target.value)} value={whatsapp} className="input input-bordered w-full" type="text" placeholder="Whatsapp Number"/>
+    <input onChange={(e)=>setWhatsapp(e.target.value)} value={whatsapp} className="input input-bordered w-full" type="text" placeholder="Whatsapp Number" required/>
    
     <input type="submit" value={updating?"Updating....":"UPDATE DETAILS"} className="btn btn-primary mt-4 text-white" disabled={updating}  />
 
