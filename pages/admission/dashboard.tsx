@@ -185,7 +185,10 @@ const tdClass = "font-bold pr-2"
     {/* COURSE APPLIED */}
     <section className={containerClass}>
     <span className="text-dihliz-500 text-xl mb-3 uppercase">Course Applied</span>
-    <select onChange={(e)=>setCourse(e.target.value)} value={course}  className="select select-bordered w-full" required>
+                        <select onChange={(e) => setCourse(e.target.value)} value={course} className="select select-bordered w-full" required>
+                            <option>
+                                Select Course
+                            </option>
         <option value="High School 8th">High School 8th</option>
         <option value="High School 9th">High School 9th</option>
         <option value="HSS Commerce">HSS Commerce</option>
