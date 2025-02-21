@@ -9,6 +9,7 @@
     "aos": "^2.3.4",
     "axios": "^1.2.0",
     "daisyui": "^2.42.1",
+    "date-fns": "^4.1.0",
     "hamburger-react": "^2.5.0",
     "js-cookie": "^3.0.1",
     "js-cookies": "^1.0.4",

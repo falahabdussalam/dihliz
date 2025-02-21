@@ -3,132 +3,131 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Raleway';
-    src: url('/fonts/Raleway-Regular.ttf');
-  }
-  @font-face {
-    font-family: 'Raleway';
-    src: url('/fonts/Raleway-ExtraBold.ttf');
-    font-weight: 800;
-  }
-*{
-  scroll-behavior: smooth;
-
+  font-family: "Raleway";
+  src: url("/fonts/Raleway-Regular.ttf");
 }
-body{
-  background: #F9F6F4;
-    font-family: 'Raleway', sans-serif;
-    font-style: medium;
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway-ExtraBold.ttf");
+  font-weight: 800;
+}
+* {
+  scroll-behavior: smooth;
+}
+body {
+  background: #f9f6f4;
+  font-family: "Raleway", sans-serif;
+  font-style: medium;
   font-weight: normal;
   font-display: swap;
 }
 
-.menu-item{
-    margin: 0 1.2rem;
-    transition: all 0.3s ease-in-out;
-    
-
+.menu-item {
+  margin: 0 1.2rem;
+  transition: all 0.3s ease-in-out;
 }
 
-.menu-item:hover{
-   transform: translateY(-0.3rem);
+.menu-item:hover {
+  transform: translateY(-0.3rem);
 }
 
-.btn{
+.btn {
   border: none;
 }
-.mover-item{
+.mover-item {
   animation: mover 4s ease-in-out infinite;
 }
-.grid-item{
+.grid-item {
   transition: all 0.3s ease-in-out;
 }
-.grid-item:hover{
-  box-shadow: 5px 6px 25px rgba(0,0,0,0.1);
-  transform: translateY(-0.4rem);
-  scale: 1.03;
+.grid-item:hover {
+  box-shadow: 5px 6px 25px rgba(0, 0, 0, 0.1);
+  scale: 1.01;
 }
 
-.scale-item{
+.scale-item {
   animation: scaler 4s ease-in-out infinite;
 }
-.related-link{
+.related-link {
   transition: all 0.3s ease-in-out;
- 
 }
-.related-link h3{
+.related-link h3 {
   color: #f5821f;
-  font: 800 1.4rem 'Raleway', sans-serif;
+  font: 800 1.4rem "Raleway", sans-serif;
 }
-.related-link span{
+.related-link span {
   color: #a1a1a1;
 }
-.related-link:hover{
+.related-link:hover {
   transform: translateY(-0.3rem);
   color: #f5821f;
   border-color: #f5821f;
-  
 }
 
-
-.service-item  button{
-  visibility:hidden;
+.service-item button {
+  visibility: hidden;
   font-weight: 500 !important;
-
-
 }
-.service-item:hover button{
+.service-item:hover button {
   transition: all 0.5s ease-in-out;
-  visibility:visible;
+  visibility: visible;
 }
-
 
 @keyframes mover {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-28px); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-28px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 @keyframes scaler {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-  
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-.no-screen{
+.no-screen {
   display: none;
 }
-.marks-table table{
+.marks-table table {
   width: 100%;
   margin-bottom: 10px;
 }
-.marks-table td{
-border: 1px solid #000;
-padding: 0.5rem;
+.marks-table td {
+  border: 1px solid #000;
+  padding: 0.5rem;
 }
 /* print css */
 @media print {
-
   @page {
-    size: auto;  /*A4 */
-    margin: 0;  /* this affects the margin in the printer settings */
-}
+    size: auto; /*A4 */
+    margin: 0; /* this affects the margin in the printer settings */
+  }
 
-  .no-print, .no-print *
-  {
+  .no-print,
+  .no-print * {
     display: none !important;
   }
-  .print-w-full{
+  .print-w-full {
     width: 100% !important;
   }
-  .print-no-pad{
+  .print-no-pad {
     padding: 0 !important;
-
   }
-  .print-no-shadow{
+  .print-no-shadow {
     box-shadow: none !important;
   }
-  .no-screen{
+  .no-screen {
     display: block !important;
   }
 }
