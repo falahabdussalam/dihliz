@@ -1,22 +1,8 @@
-import PageLoading from "@/components/widgets/loading";
-import isLogged from "../../functions/isLogged";
-import { useEffect, useState } from "react";
 import AdminNavBar from "@/components/admin/admin_nav";
 import { useRouter } from "next/router";
 import HeadTag from "@/components/common/head";
 
 const AdminIndex = () => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  useEffect(() => {
-    isLogged().then((res) => {
-      if (res) {
-        setIsLoaded(true);
-      } else {
-        window.location.replace("/cpanel/login");
-      }
-    });
-  }, []);
-
   const menu: Array<any> = [
     { title: "CPanel Home", ico: "🏠", link: "/cpanel" },
     { title: "Gallery", ico: "🖼️", link: "/cpanel/gallery" },
@@ -26,7 +12,6 @@ const AdminIndex = () => {
 
   const router = useRouter();
 
-  if (!isLoaded) return <PageLoading />;
   return (
     <div className="h-screen bg-lime-50">
       <HeadTag title="Admin Panel - Dihliz World School" />

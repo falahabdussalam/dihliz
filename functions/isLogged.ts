@@ -1,12 +1,13 @@
 import decodeToken from "./decode";
 
-const isLogged = async () => {
-  const decoded = decodeToken();
-  if (decoded == null) {
+const isLogged = () => {
+  const decoded: any = decodeToken();
+  console.log("decoded", decoded);
+
+  if (decoded === null || decoded?.email !== "sysadmin@dihlizworldschool.com") {
     return false;
-  } else {
-    return true;
   }
+  return true;
 };
 export default isLogged;
 

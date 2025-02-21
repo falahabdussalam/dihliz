@@ -1,5 +1,3 @@
-import PageLoading from "@/components/widgets/loading";
-import isLogged from "../../../functions/isLogged";
 import { useEffect, useState } from "react";
 import AdminNavBar from "@/components/admin/admin_nav";
 import { useRouter } from "next/router";
@@ -10,17 +8,7 @@ import PrintApplcation from "@/components/admission/print";
 import { formatDateTime } from "@/functions/date";
 
 const Services = () => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [curAdmission, setCurAdmission] = useState<any>(null);
-  useEffect(() => {
-    isLogged().then((res) => {
-      if (res) {
-        setIsLoaded(true);
-      } else {
-        window.location.replace("/cpanel/login");
-      }
-    });
-  }, []);
 
   const DATA_URL = `${ROOT_URL}/admission/getAllData.php?api=${API_KEY}`;
   const [quotes, setQuotes] = useState<Array<any>>([]);
@@ -46,7 +34,6 @@ const Services = () => {
 
   const router = useRouter();
 
-  if (!isLoaded) return <PageLoading />;
   return (
     <>
       <HeadTag title="Admissions - Dihliz World School" />
