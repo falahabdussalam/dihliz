@@ -21,37 +21,38 @@ const Login = () => {
 
   const handleSignIn = async () => {
     setLogging(true);
-    fetch(LOGIN_URL, {
-      method: "POST",
-      body: qs.stringify({
-        email: email,
-        password: password,
-      }),
-      headers: {
-        Accept: "application/json",
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setLogging(false);
-        console.log("data", data);
 
-        if (data.status === "NoDataFound") {
-          setError("Something went wrong!");
-        } else if (data.status === "NoUser") {
-          setError("No user found with this credentials.");
-        } else if (data.status === "PasswordIncorrect") {
-          setError("Password do not match");
-        } else {
-          Cookies.set("token", data.data, { expires: 1 });
-          // window.location.replace("/cpanel");
-        }
-      })
-      .catch((e) => {
-        setLogging(false);
-        setConnError(true);
+    try {
+      const resp = await fetch(LOGIN_URL, {
+        method: "POST",
+        body: qs.stringify({
+          email: email,
+          password: password,
+        }),
+        headers: {
+          Accept: "application/json",
+          "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
       });
+      const data = await resp.json();
+      setLogging(false);
+
+      if (data.status === "NoDataFound") {
+        setError("Something went wrong!");
+      } else if (data.status === "NoUser") {
+        setError("No user found with this credentials.");
+      } else if (data.status === "PasswordIncorrect") {
+        setError("Password do not match");
+      } else {
+        Cookies.set("token", data.data, { expires: 1 });
+        window.location.replace("/cpanel");
+      }
+    } catch (error) {
+      setLogging(false);
+      setConnError(true);
+      console.log("error", error);
+      setError("Something went wrong!");
+    }
   };
 
   const signIn = () => {
