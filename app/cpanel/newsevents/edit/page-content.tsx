@@ -7,11 +7,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { API_KEY } from "@/data/const";
 import { ROOT_URL } from "@/data/const";
 import PageLoading from "@/components/widgets/loading";
-import "react-quill/dist/quill.snow.css";
+import "react-quill-new/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill-new").then(module => module.default), { ssr: false });
 
 const EditService = () => {
-  const ReactQuill =
-    typeof window === "object" ? require("react-quill") : () => false;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
