@@ -1,3 +1,5 @@
+"use client";
+
 const ServiceDetail = (props:any) => {
     if(props.open){
         return (

@@ -1,21 +1,31 @@
-import { ROOT_URL,API_KEY } from "@/data/const";
+import { ROOT_URL } from "@/data/const";
 
-var qs = require('qs');
+type GalleryResponse = {
+  status?: string;
+  data?: unknown[];
+};
 
-const getGallery = async()=>{
-    const url = `${ROOT_URL}/gallery/get.php`;
+const getGallery = async (): Promise<GalleryResponse> => {
+  const url = `${ROOT_URL}/gallery/get.php`;
 
+  try {
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+    });
 
-    const res = await fetch(url,
-        {
-            headers: { 
-                'Accept': 'application/json',
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-            }
-        }
-        ).then(res=>res.json()).catch(err=>console.log(err));
-        return res;
-    
+    if (!response.ok) {
+      throw new Error(`Gallery API returned ${response.status}`);
     }
 
-    export default getGallery;
+    return (await response.json()) as GalleryResponse;
+  } catch (error) {
+    console.error("Unable to load the legacy gallery during build.", error);
+    return { status: "empty", data: [] };
+  }
+};
+
+export default getGallery;

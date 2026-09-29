@@ -1,3 +1,5 @@
+"use client";
+
 import { ROOT_URL } from '@/data/const';
 import newQuote from '@/functions/newQuote';
 import { useState } from 'react';

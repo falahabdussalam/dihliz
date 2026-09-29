@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import Hamburger from "hamburger-react";
 import { useEffect, useState } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";

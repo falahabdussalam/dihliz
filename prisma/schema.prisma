@@ -1,0 +1,600 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+enum ExamStatus {
+  DRAFT
+  FINAL
+  LOCKED
+}
+
+enum MarkStatus {
+  SCORED
+  ABSENT
+  NOT_APPLICABLE
+}
+
+model Subject {
+  id           String          @id @default(cuid())
+  code         String          @unique @db.VarChar(40)
+  name         String          @db.VarChar(100)
+  departmentId String
+  isArchived   Boolean         @default(false)
+  department   Department      @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+  cohorts      CohortSubject[]
+
+  @@index([departmentId])
+}
+
+model CohortSubject {
+  id              String         @id @default(cuid())
+  cohortId        String
+  subjectId       String
+  tutorId         String?
+  studyStreamCode String?        @db.VarChar(40)
+  maxMarks        Float          @default(100)
+  passMarks       Float          @default(40)
+  isArchived      Boolean        @default(false)
+  cohort          AcademicCohort @relation(fields: [cohortId], references: [id], onDelete: Restrict)
+  subject         Subject        @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  tutor           User?          @relation(fields: [tutorId], references: [id], onDelete: Restrict)
+  examSubjects    ExamSubject[]
+
+  @@unique([cohortId, subjectId])
+  @@index([tutorId])
+}
+
+model Exam {
+  eventId    String
+  event      Examination     @relation(fields: [eventId], references: [id], onDelete: Restrict)
+  id         String          @id @default(cuid())
+  cohortId   String
+  title      String          @db.VarChar(120)
+  date       DateTime        @db.Date
+  markEntryDueDate DateTime? @db.Date
+  publishDate DateTime? @db.Date
+  status     ExamStatus      @default(DRAFT)
+  revision   Int             @default(0)
+  isArchived Boolean         @default(false)
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  cohort     AcademicCohort  @relation(fields: [cohortId], references: [id], onDelete: Restrict)
+  subjects   ExamSubject[]
+  candidates ExamCandidate[]
+
+  @@unique([eventId, cohortId])
+  @@index([cohortId, isArchived, date])
+}
+
+model ExamSubject {
+  markingTutorId String?
+  markingTutor User? @relation(fields: [markingTutorId], references: [id], onDelete: SetNull)
+  id              String        @id @default(cuid())
+  examId          String
+  cohortSubjectId String
+  name            String        @db.VarChar(100)
+  maxMarks        Float
+  passMarks       Float
+  studyStreamCode String?       @db.VarChar(40)
+  exam            Exam          @relation(fields: [examId], references: [id], onDelete: Restrict)
+  cohortSubject   CohortSubject @relation(fields: [cohortSubjectId], references: [id], onDelete: Restrict)
+  marks           ExamMark[]
+
+  @@unique([examId, cohortSubjectId])
+  @@unique([id, examId])
+}
+
+model ExamCandidate {
+  id              String            @id @default(cuid())
+  examId          String
+  enrollmentId    String
+  fullName        String            @db.VarChar(160)
+  studentNumber   String            @db.VarChar(20)
+  studyStreamCode String?           @db.VarChar(40)
+  exam            Exam              @relation(fields: [examId], references: [id], onDelete: Restrict)
+  enrollment      StudentEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Restrict)
+  marks           ExamMark[]
+
+  @@unique([examId, enrollmentId])
+  @@unique([id, examId])
+}
+
+model ExamMark {
+  id            String        @id @default(cuid())
+  examId        String
+  candidateId   String
+  examSubjectId String
+  status        MarkStatus
+  score         Float?
+  updatedAt     DateTime      @updatedAt
+  candidate     ExamCandidate @relation(fields: [candidateId, examId], references: [id, examId], onDelete: Restrict)
+  subject       ExamSubject   @relation(fields: [examSubjectId, examId], references: [id, examId], onDelete: Restrict)
+
+  @@unique([candidateId, examSubjectId])
+  @@index([examSubjectId, examId])
+}
+
+model Examination {
+  id             String       @id @default(cuid())
+  academicYearId String
+  title          String       @db.VarChar(120)
+  isDemo         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
+  exams          Exam[]
+
+  @@index([academicYearId, isDemo])
+}
+
+enum RegisterStatus {
+  DRAFT
+  SUBMITTED
+  LOCKED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  OFF
+}
+
+enum PerformanceCategory {
+  CLASS_BEHAVIOUR
+  STUDY_DISCIPLINE
+  HOSTEL_BEHAVIOUR
+}
+
+model AttendanceRegister {
+  id        String            @id @default(cuid())
+  cohortId  String
+  date      DateTime          @db.Date
+  status    RegisterStatus    @default(DRAFT)
+  revision  Int               @default(0)
+  updatedAt DateTime          @updatedAt
+  cohort    AcademicCohort    @relation(fields: [cohortId], references: [id], onDelete: Restrict)
+  entries   AttendanceEntry[]
+
+  @@unique([cohortId, date])
+}
+
+model AttendanceEntry {
+  id            String             @id @default(cuid())
+  registerId    String
+  enrollmentId  String
+  fullName      String             @db.VarChar(160)
+  studentNumber String             @db.VarChar(20)
+  status        AttendanceStatus?
+  reason        String?            @db.VarChar(500)
+  register      AttendanceRegister @relation(fields: [registerId], references: [id], onDelete: Restrict)
+  enrollment    StudentEnrollment  @relation(fields: [enrollmentId], references: [id], onDelete: Restrict)
+
+  @@unique([registerId, enrollmentId])
+  @@index([enrollmentId])
+}
+
+model PerformanceCriterion {
+  id         String              @id @default(cuid())
+  category   PerformanceCategory
+  code       String              @db.VarChar(40)
+  name       String              @db.VarChar(120)
+  maximum    Float
+  version    Int                 @default(1)
+  isArchived Boolean             @default(false)
+  createdAt  DateTime            @default(now())
+
+  @@unique([category, code, version])
+}
+
+model PerformanceRegister {
+  id        String              @id @default(cuid())
+  cohortId  String
+  month     DateTime            @db.Date
+  category  PerformanceCategory
+  criteria  Json
+  status    RegisterStatus      @default(DRAFT)
+  revision  Int                 @default(0)
+  updatedAt DateTime            @updatedAt
+  cohort    AcademicCohort      @relation(fields: [cohortId], references: [id], onDelete: Restrict)
+  entries   PerformanceEntry[]
+
+  @@unique([cohortId, month, category])
+}
+
+model PerformanceEntry {
+  id            String              @id @default(cuid())
+  registerId    String
+  enrollmentId  String
+  fullName      String              @db.VarChar(160)
+  studentNumber String              @db.VarChar(20)
+  scores        Json
+  remarks       String?             @db.VarChar(1000)
+  register      PerformanceRegister @relation(fields: [registerId], references: [id], onDelete: Restrict)
+  enrollment    StudentEnrollment   @relation(fields: [enrollmentId], references: [id], onDelete: Restrict)
+
+  @@unique([registerId, enrollmentId])
+  @@index([enrollmentId])
+}
+
+model Achievement {
+  id           String            @id @default(cuid())
+  enrollmentId String
+  title        String            @db.VarChar(160)
+  kind         String            @db.VarChar(40)
+  date         DateTime          @db.Date
+  organiser    String?           @db.VarChar(160)
+  award        String?           @db.VarChar(120)
+  remarks      String?           @db.VarChar(1000)
+  evidenceUrl  String?           @db.VarChar(500)
+  isArchived   Boolean           @default(false)
+  revision     Int               @default(0)
+  enrollment   StudentEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Restrict)
+
+  @@index([enrollmentId, isArchived, date])
+}
+
+model ReportSnapshot {
+  id           String            @id @default(cuid())
+  enrollmentId String
+  kind         String            @db.VarChar(40)
+  version      Int
+  payload      Json
+  createdAt    DateTime          @default(now())
+  enrollment   StudentEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Restrict)
+  downloads    ReportDownload[]
+
+  @@unique([enrollmentId, kind, version])
+}
+
+model ReportDownload {
+  id        String         @id @default(cuid())
+  reportId  String
+  actorId   String
+  createdAt DateTime       @default(now())
+  report    ReportSnapshot @relation(fields: [reportId], references: [id], onDelete: Restrict)
+
+  @@index([reportId, createdAt])
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  DEPARTMENT_HEAD
+  CLASS_MENTOR
+  HOSTEL_MENTOR
+  SUBJECT_TUTOR
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  INACTIVE
+  WITHDRAWN
+  COMPLETED
+}
+
+enum ContactVerificationStatus {
+  UNVERIFIED
+  NEEDS_REVIEW
+  VERIFIED
+}
+
+enum StudentImportStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum StudentImportRowResult {
+  CREATED
+  SKIPPED
+  FAILED
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  email              String    @unique @db.VarChar(191)
+  fullName           String    @db.VarChar(120)
+  passwordHash       String    @db.VarChar(255)
+  role               UserRole
+  isActive           Boolean   @default(true)
+  mustChangePassword Boolean   @default(true)
+  lastLoginAt        DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  sessions             Session[]
+  assignments          StaffAssignment[]
+  auditLogs            AuditLog[]
+  studentImportBatches StudentImportBatch[]
+
+  teachingSubjects CohortSubject[]
+  markingSubjects ExamSubject[]
+
+  @@index([role, isActive])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique @db.Char(64)
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String   @db.VarChar(80)
+  entityType String   @db.VarChar(80)
+  entityId   String?  @db.VarChar(191)
+  details    Json?
+  createdAt  DateTime @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId, createdAt])
+  @@index([entityType, entityId])
+}
+
+model AcademicYear {
+  examinations Examination[]
+  id           String        @id @default(cuid())
+  name         String        @unique @db.VarChar(20)
+  startDate    DateTime      @db.Date
+  endDate      DateTime      @db.Date
+  isActive     Boolean       @default(false)
+  isArchived   Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  cohorts              AcademicCohort[]
+  assignments          StaffAssignment[]
+  studentImportBatches StudentImportBatch[]
+
+  @@index([isActive, isArchived])
+}
+
+model ClassLevel {
+  id         String   @id @default(cuid())
+  code       String   @unique @db.VarChar(20)
+  name       String   @db.VarChar(50)
+  sortOrder  Int
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  cohorts AcademicCohort[]
+
+  @@unique([sortOrder])
+}
+
+model Division {
+  id         String   @id @default(cuid())
+  code       String   @unique @db.VarChar(20)
+  name       String   @db.VarChar(50)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  cohorts AcademicCohort[]
+}
+
+model Stream {
+  id         String   @id @default(cuid())
+  code       String   @unique @db.VarChar(40)
+  name       String   @db.VarChar(80)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  cohorts            AcademicCohort[]
+  studentEnrollments StudentEnrollment[]
+}
+
+model Department {
+  id         String   @id @default(cuid())
+  code       String   @unique @db.VarChar(40)
+  name       String   @db.VarChar(100)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  assignments StaffAssignment[]
+  subjects    Subject[]
+}
+
+model AcademicCohort {
+  attendanceRegisters  AttendanceRegister[]
+  performanceRegisters PerformanceRegister[]
+  id                   String                @id @default(cuid())
+  code                 String                @db.VarChar(60)
+  displayName          String                @db.VarChar(100)
+  academicYearId       String
+  classLevelId         String
+  divisionId           String?
+  streamId             String?
+  isArchived           Boolean               @default(false)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+
+  academicYear       AcademicYear        @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
+  classLevel         ClassLevel          @relation(fields: [classLevelId], references: [id], onDelete: Restrict)
+  division           Division?           @relation(fields: [divisionId], references: [id], onDelete: Restrict)
+  stream             Stream?             @relation(fields: [streamId], references: [id], onDelete: Restrict)
+  assignments        StaffAssignment[]
+  studentEnrollments StudentEnrollment[]
+  subjects           CohortSubject[]
+  exams              Exam[]
+
+  @@unique([academicYearId, code])
+  @@unique([id, academicYearId])
+  @@index([academicYearId, classLevelId, isArchived])
+  @@index([divisionId])
+  @@index([streamId])
+}
+
+model StudentNumberSequence {
+  id        BigInt   @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  student   Student?
+}
+
+model Student {
+  id            String    @id @default(cuid())
+  sequenceId    BigInt    @unique
+  studentNumber String    @unique @db.VarChar(20)
+  fullName      String    @db.VarChar(160)
+  dateOfBirth   DateTime? @db.Date
+  photoUrl      String?   @db.VarChar(500)
+  isArchived    Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sequence    StudentNumberSequence @relation(fields: [sequenceId], references: [id], onDelete: Restrict)
+  guardians   StudentGuardian[]
+  contacts    StudentContact[]
+  enrollments StudentEnrollment[]
+  importRows  StudentImportRow[]
+
+  @@index([fullName])
+  @@index([isArchived])
+}
+
+model StudentGuardian {
+  id           String   @id @default(cuid())
+  studentId    String
+  fullName     String?  @db.VarChar(160)
+  relationship String?  @db.VarChar(40)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  student  Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  contacts StudentContact[]
+
+  @@index([studentId])
+}
+
+model StudentContact {
+  id                 String                    @id @default(cuid())
+  studentId          String
+  guardianId         String?
+  rawValue           String                    @db.VarChar(255)
+  normalizedPhone    String?                   @db.VarChar(32)
+  label              String?                   @db.VarChar(40)
+  sortOrder          Int                       @default(0)
+  verificationStatus ContactVerificationStatus @default(UNVERIFIED)
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+
+  student  Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  guardian StudentGuardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
+
+  @@unique([studentId, sortOrder])
+  @@index([normalizedPhone])
+  @@index([guardianId])
+}
+
+model House {
+  id         String   @id @default(cuid())
+  code       String   @unique @db.VarChar(40)
+  name       String   @db.VarChar(100)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  enrollments StudentEnrollment[]
+}
+
+model StudentEnrollment {
+  attendanceEntries  AttendanceEntry[]
+  performanceEntries PerformanceEntry[]
+  achievements       Achievement[]
+  reports            ReportSnapshot[]
+  id                 String             @id @default(cuid())
+  studentId          String
+  academicYearId     String
+  cohortId           String
+  studyStreamId      String?
+  houseId            String?
+  rollNumber         String?            @db.VarChar(40)
+  status             EnrollmentStatus   @default(ACTIVE)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  student        Student         @relation(fields: [studentId], references: [id], onDelete: Restrict)
+  cohort         AcademicCohort  @relation(fields: [cohortId, academicYearId], references: [id, academicYearId], onDelete: Restrict)
+  studyStream    Stream?         @relation(fields: [studyStreamId], references: [id], onDelete: Restrict)
+  house          House?          @relation(fields: [houseId], references: [id], onDelete: Restrict)
+  examCandidates ExamCandidate[]
+
+  @@unique([studentId, academicYearId])
+  @@index([academicYearId, cohortId, status])
+  @@index([academicYearId, houseId])
+  @@index([studyStreamId])
+}
+
+model StudentImportBatch {
+  id                  String              @id @default(cuid())
+  sourceSpreadsheetId String              @db.VarChar(191)
+  sourceChecksum      String              @db.Char(64)
+  mappingVersion      String              @db.VarChar(40)
+  academicYearId      String
+  operatorId          String?
+  status              StudentImportStatus @default(RUNNING)
+  startedAt           DateTime            @default(now())
+  completedAt         DateTime?
+  errorMessage        String?             @db.Text
+
+  academicYear AcademicYear       @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
+  operator     User?              @relation(fields: [operatorId], references: [id], onDelete: SetNull)
+  rows         StudentImportRow[]
+
+  @@unique([sourceSpreadsheetId, sourceChecksum, academicYearId])
+  @@index([operatorId, startedAt])
+}
+
+model StudentImportRow {
+  id                String                 @id @default(cuid())
+  batchId           String
+  sheetName         String                 @db.VarChar(100)
+  rowNumber         Int
+  sourceFingerprint String                 @db.Char(64)
+  studentId         String?
+  result            StudentImportRowResult
+  message           String?                @db.VarChar(500)
+  createdAt         DateTime               @default(now())
+
+  batch   StudentImportBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  student Student?           @relation(fields: [studentId], references: [id], onDelete: Restrict)
+
+  @@unique([batchId, sheetName, rowNumber])
+  @@index([studentId])
+}
+
+model StaffAssignment {
+  id             String   @id @default(cuid())
+  userId         String
+  academicYearId String
+  role           UserRole
+  cohortId       String?
+  departmentId   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  academicYear AcademicYear    @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
+  cohort       AcademicCohort? @relation(fields: [cohortId], references: [id], onDelete: Restrict)
+  department   Department?     @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+
+  @@index([userId, academicYearId])
+  @@index([cohortId, role])
+  @@index([departmentId, role])
+}

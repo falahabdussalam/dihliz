@@ -1,0 +1,21 @@
+{
+  "sourceSpreadsheetId": "19o76_3kap4ktFF4MoQXbRWh2YTD_xiUAXPgSJOUv_xo",
+  "academicYear": "2026-2027",
+  "studentIdPolicy": "generate-permanent",
+  "groupScope": "academic-year",
+  "houseAliases": {
+    "ANDALUS FALCONS": "ANDALUS_FALCONS",
+    "CORDOBIC TITANS": "CORDOBIC_TITANS",
+    "GRANADIC GUARDIANS": "GRANADIC_GUARDIANS"
+  },
+  "sheets": {
+    "Class - 8": {"class": "8", "cohort": "8"},
+    "Class - 9A": {"class": "9A", "cohort": "9-A"},
+    "Class - 9B": {"class": "9B", "cohort": "9-B"},
+    "Class - 10": {"class": "10", "cohort": "10"},
+    "Class - +1 Science": {"class": "S1 - SCIENCE", "cohort": "PLUS1-SCIENCE", "streams": {"CS": "COMPUTER_SCIENCE", "BIO": "BIOLOGY_SCIENCE"}},
+    "Class - +2 Science": {"class": "S2 - SCIENCE", "cohortsByStream": {"COMPUTER": "PLUS2-COMPUTER-SCIENCE", "BIOLOGY": "PLUS2-BIOLOGY-SCIENCE"}, "streams": {"COMPUTER": "COMPUTER_SCIENCE", "BIOLOGY": "BIOLOGY_SCIENCE"}},
+    "Class - +1 Commerce": {"class": "S1 - COMMERCE", "cohort": "PLUS1-COMMERCE"},
+    "Class - +2 Commerce": {"class": "S2 - COMMERCE", "cohort": "PLUS2-COMMERCE"}
+  }
+}

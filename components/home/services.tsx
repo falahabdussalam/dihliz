@@ -1,7 +1,9 @@
+"use client";
+
 import {FaChalkboardTeacher, FaRegMap, FaSolarPanel} from 'react-icons/fa';
 import {RiLightbulbFlashLine} from 'react-icons/ri';
 import {MdAutoGraph, MdOutlineWorkOutline} from 'react-icons/md';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { BsPersonLinesFill } from 'react-icons/bs';
 
 
