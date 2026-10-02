@@ -1,3 +1,4 @@
+import Select from "@/components/dashboard/Select";
 import Modal from "@/components/dashboard/Dialog";
 import AcademicTabs from "@/features/academics/Tabs";
 import Link from "next/link";
@@ -82,7 +83,7 @@ export default async function Subjects({
         <Panel title="Yearly class subjects">
           <form className="mb-5 flex flex-wrap items-end gap-3">
             <Field label="Academic year">
-              <select
+              <Select
                 name="year"
                 defaultValue={year?.id}
                 className={inputClass}
@@ -92,10 +93,10 @@ export default async function Subjects({
                     {y.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
             <Field label="Class">
-              <select
+              <Select
                 name="cohort"
                 defaultValue={cohort?.id}
                 className={inputClass}
@@ -105,7 +106,7 @@ export default async function Subjects({
                     {c.displayName}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
             <button className={linkClass}>Load class</button>
           </form>
@@ -149,7 +150,7 @@ export default async function Subjects({
                         />
                       </Field>
                       <Field label="Assigned tutor">
-                        <select
+                        <Select
                           name="tutorId"
                           className={inputClass}
                           defaultValue={s.tutorId ?? ""}
@@ -160,10 +161,10 @@ export default async function Subjects({
                               {t.fullName}
                             </option>
                           ))}
-                        </select>
+                        </Select>
                       </Field>
                       <Field label="Applies to">
-                        <select
+                        <Select
                           name="studyStreamCode"
                           className={inputClass}
                           defaultValue={s.studyStreamCode ?? ""}
@@ -179,7 +180,7 @@ export default async function Subjects({
                               </option>
                             </>
                           )}
-                        </select>
+                        </Select>
                       </Field>
                     </div>
                     <label className="text-sm">
@@ -205,7 +206,7 @@ export default async function Subjects({
                 <input type="hidden" name="cohortId" value={cohort.id} />
                 <div className="grid gap-3 sm:grid-cols-2">
                   <Field label="Subject">
-                    <select name="subjectId" className={inputClass} required>
+                    <Select name="subjectId" className={inputClass} required>
                       <option value="">Select subject</option>
                       {subjects
                         .filter(
@@ -218,17 +219,17 @@ export default async function Subjects({
                             {s.name}
                           </option>
                         ))}
-                    </select>
+                    </Select>
                   </Field>
                   <Field label="Assigned tutor">
-                    <select name="tutorId" className={inputClass}>
+                    <Select name="tutorId" className={inputClass}>
                       <option value="">Unassigned</option>
                       {tutors.map((t) => (
                         <option key={t.id} value={t.id}>
                           {t.fullName}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </Field>
                   <Field label="Maximum marks">
                     <input
@@ -255,7 +256,7 @@ export default async function Subjects({
                     />
                   </Field>
                   <Field label="Applies to">
-                    <select name="studyStreamCode" className={inputClass}>
+                    <Select name="studyStreamCode" className={inputClass}>
                       <option value="">All students in class</option>
                       {cohort.stream?.code === "SCIENCE" && (
                         <>
@@ -267,7 +268,7 @@ export default async function Subjects({
                           </option>
                         </>
                       )}
-                    </select>
+                    </Select>
                   </Field>
                 </div>
               </ActionForm>
@@ -308,7 +309,7 @@ export default async function Subjects({
                       />
                     </Field>
                     <Field label="Department">
-                      <select
+                      <Select
                         className={inputClass}
                         name="departmentId"
                         defaultValue={s.departmentId}
@@ -318,7 +319,7 @@ export default async function Subjects({
                             {d.name}
                           </option>
                         ))}
-                      </select>
+                      </Select>
                     </Field>
                     <label className="text-sm">
                       <input
@@ -360,14 +361,14 @@ export default async function Subjects({
                   />
                 </Field>
                 <Field label="Department">
-                  <select className={inputClass} name="departmentId" required>
+                  <Select className={inputClass} name="departmentId" required>
                     <option value="">Select department</option>
                     {departments.map((d) => (
                       <option key={d.id} value={d.id}>
                         {d.name}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </Field>
               </div>
             </ActionForm>

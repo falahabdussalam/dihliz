@@ -6,6 +6,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { toast } from "sonner";
 import { Dialog } from "./Dialog";
 import type { ActionState } from "@/lib/school-actions";
 export default function ActionForm({
@@ -14,20 +15,25 @@ export default function ActionForm({
   label = "Save changes",
   className = "",
   confirm,
+  hideSubmit = false,
 }: {
   action: (state: ActionState, data: FormData) => Promise<ActionState>;
   children: ReactNode;
   label?: string;
   className?: string;
   confirm?: string;
+  hideSubmit?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, {});
   const ref = useRef<HTMLFormElement>(null),
     accepted = useRef(false);
   const [confirming, setConfirming] = useState(false);
   useEffect(() => {
-    if (state.success)
+    if (state.error) toast.error(state.error);
+    if (state.success) {
+      toast.success(state.success);
       ref.current?.dispatchEvent(new Event("erp:saved", { bubbles: true }));
+    }
   }, [state]);
   return (
     <>
@@ -47,12 +53,14 @@ export default function ActionForm({
       >
         <fieldset disabled={pending} className="min-w-0 space-y-4">
           {children}
-          <button
-            className="rounded-lg bg-[#0b7a4b] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
-            type="submit"
-          >
-            {pending ? "Saving…" : label}
-          </button>
+          {!hideSubmit && (
+            <button
+              className="rounded-lg bg-[#0b7a4b] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+              type="submit"
+            >
+              {pending ? "Saving…" : label}
+            </button>
+          )}
         </fieldset>
         {state.error && (
           <p

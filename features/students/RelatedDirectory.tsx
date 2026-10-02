@@ -1,3 +1,5 @@
+import Pagination from "@/components/dashboard/Pagination";
+import Select from "@/components/dashboard/Select";
 import Link from "next/link";
 import { requirePageUser } from "@/lib/auth";
 import { studentQuery } from "@/lib/student-queries";
@@ -20,8 +22,8 @@ export default async function RelatedDirectory({
 }) {
   const user = await requirePageUser("/dashboard/" + kind),
     { year, years, scope, where } = await studentQuery(user, filters);
-  const page = Math.max(1, parseInt(filters.page ?? "1") || 1);
   const total = await prisma.studentEnrollment.count({ where });
+  const page = Math.min(Math.max(1, Math.ceil(total / 25)), Math.max(1, parseInt(filters.page ?? "1") || 1));
   const rows = await prisma.studentEnrollment.findMany({
     where,
     include: {
@@ -68,16 +70,16 @@ export default async function RelatedDirectory({
       >
         <form className="mb-5 flex flex-wrap items-end gap-3">
           <Field label="Academic year">
-            <select className={inputClass} name="year" defaultValue={year?.id}>
+            <Select className={inputClass} name="year" defaultValue={year?.id}>
               {years.map((y) => (
                 <option key={y.id} value={y.id}>
                   {y.name}
                 </option>
               ))}
-            </select>
+            </Select>
           </Field>
           <Field label="Class">
-            <select
+            <Select
               className={inputClass}
               name="cohort"
               defaultValue={filters.cohort}
@@ -88,7 +90,7 @@ export default async function RelatedDirectory({
                   {c.displayName}
                 </option>
               ))}
-            </select>
+            </Select>
           </Field>
           <Field label="Student">
             <input className={inputClass} name="q" defaultValue={filters.q} />
@@ -150,19 +152,7 @@ export default async function RelatedDirectory({
               </div>
             ))}
         {!rows.length && <Empty>No students in this view.</Empty>}
-        <div className="mt-5 flex justify-between">
-          <Link className={linkClass} href={url(Math.max(1, page - 1))}>
-            Previous
-          </Link>
-          <span className="text-sm">
-            Page {page} · {total} students
-          </span>
-          {page * 25 < total && (
-            <Link className={linkClass} href={url(page + 1)}>
-              Next
-            </Link>
-          )}
-        </div>
+        <Pagination currentPage={page} totalPages={Math.ceil(total / 25)} total={total} />
       </Panel>
     </DashboardLayout>
   );

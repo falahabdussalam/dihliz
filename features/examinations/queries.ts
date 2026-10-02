@@ -13,7 +13,12 @@ export async function examWorkspace(user: AuthUser, examId: string) {
       subjects: {
         include: {
           markingTutor: { select: { id: true, fullName: true } },
-          cohortSubject: { include: { subject: true } },
+          cohortSubject: {
+            include: {
+              subject: true,
+              tutor: { select: { id: true, fullName: true } },
+            },
+          },
         },
         orderBy: { name: "asc" },
       },
@@ -29,7 +34,7 @@ export async function examWorkspace(user: AuthUser, examId: string) {
   const subjects = exam.subjects.filter((s) =>
     canReadExamSubject(user, scope, exam.cohortId, {
       ...s.cohortSubject,
-      tutorId: s.markingTutorId,
+      tutorId: s.cohortSubject.tutorId,
     }),
   );
   if (!scope.admin && !subjects.length) return null;
@@ -41,7 +46,7 @@ export async function examWorkspace(user: AuthUser, examId: string) {
       ...s,
       canEdit: canEditExamSubject(user, scope, exam.cohortId, {
         ...s.cohortSubject,
-        tutorId: s.markingTutorId,
+        tutorId: s.cohortSubject.tutorId,
       }),
     })),
     candidates: exam.candidates.map((c) => ({

@@ -1,3 +1,4 @@
+import Select from "@/components/dashboard/Select";
 import Modal from "@/components/dashboard/Dialog";
 import ActionForm from "@/components/dashboard/ActionForm";
 import { Field, inputClass } from "@/components/dashboard/SchoolUI";
@@ -18,13 +19,13 @@ export default function MarkerForm({
   tutors: { id: string; fullName: string }[];
 }) {
   return (
-    <Modal title={"Assign marker · " + name}>
+    <Modal title={"Assign marks-entry tutor · " + name}>
       <ActionForm action={assignMarker}>
         <input type="hidden" name="examId" value={examId} />
         <input type="hidden" name="examSubjectId" value={subjectId} />
         <input type="hidden" name="revision" value={revision} />
-        <Field label="Marking tutor">
-          <select
+        <Field label="Marks-entry tutor">
+          <Select
             name="tutorId"
             className={inputClass}
             defaultValue={tutorId ?? ""}
@@ -35,7 +36,7 @@ export default function MarkerForm({
                 {t.fullName}
               </option>
             ))}
-          </select>
+          </Select>
         </Field>
         <p className="text-sm text-slate-500">
           This assignment applies only to this class examination. Existing marks

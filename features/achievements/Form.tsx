@@ -1,3 +1,4 @@
+import Select from "@/components/dashboard/Select";
 import Modal from "@/components/dashboard/Dialog";
 import ActionForm from "@/components/dashboard/ActionForm";
 import { Field, inputClass } from "@/components/dashboard/SchoolUI";
@@ -35,7 +36,7 @@ export default function AchievementForm({
           />
         </Field>
         <Field label="Type">
-          <select
+          <Select
             className={inputClass}
             name="kind"
             defaultValue={record?.kind}
@@ -43,7 +44,7 @@ export default function AchievementForm({
             {["ACTIVITY", "COMPETITION", "PARTICIPATION", "AWARD"].map((k) => (
               <option key={k}>{k}</option>
             ))}
-          </select>
+          </Select>
         </Field>
         <Field label="Date">
           <input

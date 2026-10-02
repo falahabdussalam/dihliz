@@ -1,3 +1,4 @@
+import Select from "@/components/dashboard/Select";
 import Modal from "@/components/dashboard/Dialog";
 import Tabs from "@/components/dashboard/Tabs";
 import StudentRecords from "@/features/students/Records";
@@ -132,7 +133,7 @@ export default async function StudentProfile({
             </div>
             <form className="ml-auto flex gap-2">
               <input type="hidden" name="tab" value={tab} />
-              <select
+              <Select
                 name="year"
                 defaultValue={year?.id}
                 className={inputClass}
@@ -142,7 +143,7 @@ export default async function StudentProfile({
                     {y.name}
                   </option>
                 ))}
-              </select>
+              </Select>
               <button className={linkClass}>Select year</button>
             </form>
           </div>
@@ -287,7 +288,7 @@ export default async function StudentProfile({
                               />
                             </Field>
                             <Field label="Relationship">
-                              <select
+                              <Select
                                 name="relationship"
                                 className={inputClass}
                                 defaultValue={guardian?.relationship ?? ""}
@@ -298,7 +299,7 @@ export default async function StudentProfile({
                                     <option key={s}>{s}</option>
                                   ),
                                 )}
-                              </select>
+                              </Select>
                             </Field>
                           </ActionForm>
                         </Modal>
@@ -373,7 +374,7 @@ export default async function StudentProfile({
                               />
                             </Field>
                             <Field label="Linked guardian">
-                              <select
+                              <Select
                                 className={inputClass}
                                 name="guardianId"
                                 defaultValue={contact?.guardianId ?? ""}
@@ -384,10 +385,10 @@ export default async function StudentProfile({
                                     {g.fullName}
                                   </option>
                                 ))}
-                              </select>
+                              </Select>
                             </Field>
                             <Field label="Verification">
-                              <select
+                              <Select
                                 className={inputClass}
                                 name="verificationStatus"
                                 defaultValue={
@@ -399,7 +400,7 @@ export default async function StudentProfile({
                                     <option key={s}>{s}</option>
                                   ),
                                 )}
-                              </select>
+                              </Select>
                             </Field>
                           </ActionForm>
                         </Modal>
@@ -439,7 +440,7 @@ export default async function StudentProfile({
                     />
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Class">
-                        <select
+                        <Select
                           className={inputClass}
                           name="cohortId"
                           defaultValue={selected.cohortId}
@@ -449,10 +450,10 @@ export default async function StudentProfile({
                               {c.displayName}
                             </option>
                           ))}
-                        </select>
+                        </Select>
                       </Field>
                       <Field label="Study stream">
-                        <select
+                        <Select
                           className={inputClass}
                           name="studyStreamId"
                           defaultValue={selected.studyStreamId ?? ""}
@@ -463,10 +464,10 @@ export default async function StudentProfile({
                               {s.name}
                             </option>
                           ))}
-                        </select>
+                        </Select>
                       </Field>
                       <Field label="House">
-                        <select
+                        <Select
                           className={inputClass}
                           name="houseId"
                           defaultValue={selected.houseId ?? ""}
@@ -477,7 +478,7 @@ export default async function StudentProfile({
                               {h.name}
                             </option>
                           ))}
-                        </select>
+                        </Select>
                       </Field>
                       <Field label="Roll number">
                         <input
@@ -488,7 +489,7 @@ export default async function StudentProfile({
                         />
                       </Field>
                       <Field label="Status">
-                        <select
+                        <Select
                           className={inputClass}
                           name="status"
                           defaultValue={selected.status}
@@ -498,7 +499,7 @@ export default async function StudentProfile({
                               <option key={s}>{s}</option>
                             ),
                           )}
-                        </select>
+                        </Select>
                       </Field>
                     </div>
                   </ActionForm>

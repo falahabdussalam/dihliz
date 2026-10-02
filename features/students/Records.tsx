@@ -1,3 +1,4 @@
+import Select from "@/components/dashboard/Select";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import type { AuthUser } from "@/lib/auth";
@@ -397,13 +398,13 @@ export default async function StudentRecords({
             <ActionForm action={publishReport} label="Publish version">
               <input type="hidden" name="enrollmentId" value={enrollmentId} />
               <Field label="Report">
-                <select className={inputClass} name="kind">
+                <Select className={inputClass} name="kind">
                   {["CONSOLIDATED", "ATTENDANCE", "EXAMS", "PERFORMANCE"].map(
                     (k) => (
                       <option key={k}>{k}</option>
                     ),
                   )}
-                </select>
+                </Select>
               </Field>
               <p className="text-sm text-slate-500">
                 Includes submitted attendance, final non-demo exams and locked

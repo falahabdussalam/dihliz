@@ -185,7 +185,7 @@ export default function DashboardLayout({
   );
 
   return (
-    <div className="min-h-screen bg-[#f5f6fa] text-slate-900">
+    <div className="dashboard-font min-h-screen bg-[#f5f6fa] text-slate-900">
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-[258px] border-r border-slate-200 shadow-[4px_0_18px_rgba(15,23,42,0.03)] lg:block">
         {sidebar}
       </aside>

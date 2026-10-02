@@ -1,3 +1,5 @@
+import Select from "@/components/dashboard/Select";
+import Pagination from "@/components/dashboard/Pagination";
 import Modal from "@/components/dashboard/Dialog";
 import BulkSelection from "@/components/dashboard/BulkSelection";
 import Link from "next/link";
@@ -193,34 +195,34 @@ export default async function Students({
                     />
                   </Field>
                   <Field label="Class">
-                    <select name="cohortId" className={inputClass} required>
+                    <Select name="cohortId" className={inputClass} required>
                       <option value="">Select class</option>
                       {scope.cohorts.map((c) => (
                         <option key={c.id} value={c.id}>
                           {c.displayName}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </Field>
                   <Field label="Study stream (optional)">
-                    <select name="studyStreamId" className={inputClass}>
+                    <Select name="studyStreamId" className={inputClass}>
                       <option value="">Use cohort stream</option>
                       {streams.map((s) => (
                         <option key={s.id} value={s.id}>
                           {s.name}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </Field>
                   <Field label="House">
-                    <select name="houseId" className={inputClass}>
+                    <Select name="houseId" className={inputClass}>
                       <option value="">Unassigned</option>
                       {houses.map((h) => (
                         <option key={h.id} value={h.id}>
                           {h.name}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </Field>
                   <Field label="Parent / guardian">
                     <input
@@ -251,7 +253,7 @@ export default async function Students({
         <Panel title="Student directory">
           <form className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
             <Field label="Academic year">
-              <select
+              <Select
                 className={inputClass}
                 name="year"
                 defaultValue={year?.id}
@@ -261,10 +263,10 @@ export default async function Students({
                     {y.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
             <Field label="Class">
-              <select
+              <Select
                 className={inputClass}
                 name="cohort"
                 defaultValue={filters.cohort ?? ""}
@@ -275,10 +277,10 @@ export default async function Students({
                     {c.displayName}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
             <Field label="House">
-              <select
+              <Select
                 className={inputClass}
                 name="house"
                 defaultValue={filters.house ?? ""}
@@ -290,10 +292,10 @@ export default async function Students({
                     {h.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
             <Field label="Status">
-              <select
+              <Select
                 className={inputClass}
                 name="status"
                 defaultValue={filters.status ?? ""}
@@ -302,7 +304,7 @@ export default async function Students({
                 {["ACTIVE", "INACTIVE", "WITHDRAWN", "COMPLETED"].map((s) => (
                   <option key={s}>{s}</option>
                 ))}
-              </select>
+              </Select>
             </Field>
             <Field label="Search name, ID or phone">
               <input
@@ -349,7 +351,7 @@ export default async function Students({
               fields={
                 <div className="grid gap-3 rounded-lg bg-slate-50 p-4 sm:grid-cols-2">
                   <Field label="Promotion target (later academic year)">
-                    <select
+                    <Select
                       name="targetCohortId"
                       className={inputClass}
                       required
@@ -360,7 +362,7 @@ export default async function Students({
                           {c.academicYear.name} · {c.displayName}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </Field>
                   <label className="self-center text-sm text-slate-600">
                     <input type="checkbox" name="keepHouse" /> Carry house
@@ -378,20 +380,7 @@ export default async function Students({
           ) : (
             table
           )}
-          <div className="mt-5 flex items-center justify-between">
-            <Link href={pageUrl(Math.max(1, page - 1))} className={linkClass}>
-              Previous
-            </Link>
-            <span className="text-xs text-slate-500">
-              Page {page} of {pages}
-            </span>
-            <Link
-              href={pageUrl(Math.min(pages, page + 1))}
-              className={linkClass}
-            >
-              Next
-            </Link>
-          </div>
+          <Pagination currentPage={page} totalPages={pages} />
         </Panel>
       </div>
     </DashboardLayout>

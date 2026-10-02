@@ -14,25 +14,32 @@ export async function createExamination(_: ActionState, data: FormData) {
     const actor = await actionUser(true),
       yearId = id(data, "yearId");
     const title = z.string().min(2).max(120).parse(field(data, "title"));
-    const date = dateValue(field(data, "date"))!,
-      markEntryDueDate = dateValue(field(data, "markEntryDueDate"))!,
-      publishDate = dateValue(field(data, "publishDate"))!;
-    if (markEntryDueDate < date || publishDate < markEntryDueDate)
-      throw new Error(
-        "Use exam date, then mark entry due date, then publish date.",
-      );
     const ids = z
       .array(z.string().cuid())
-      .min(1)
+      .min(1, "Select at least one stream.")
       .max(50)
       .parse(data.getAll("cohortIds"));
     if (new Set(ids).size !== ids.length)
       throw new Error("Duplicate class selection.");
+    const selectedSubjects = z
+      .array(z.string().cuid())
+      .max(2500)
+      .parse(data.getAll("subjectIds"));
+    const explicitSelection = field(data, "subjectSelection") === "1";
+    if (new Set(selectedSubjects).size !== selectedSubjects.length)
+      throw new Error("Duplicate subject selection.");
     await prisma.$transaction(
       async (tx) => {
         const year = await tx.academicYear.findFirstOrThrow({
           where: { id: yearId, isArchived: false },
         });
+        const date = dateValue(field(data, "date"))!,
+          markEntryDueDate = dateValue(field(data, "markEntryDueDate"))!,
+          publishDate = dateValue(field(data, "publishDate"))!;
+        if (markEntryDueDate < date || publishDate < markEntryDueDate)
+          throw new Error(
+            "Use exam date, then mark entry due date, then publish date.",
+          );
         if (date < year.startDate || date > year.endDate)
           throw new Error("Exam date must fall within the academic year.");
         const cohorts = await tx.academicCohort.findMany({
@@ -50,6 +57,13 @@ export async function createExamination(_: ActionState, data: FormData) {
         });
         if (cohorts.length !== ids.length)
           throw new Error("A selected class is unavailable.");
+        const available = new Set(
+          cohorts.flatMap((c) => c.subjects.map((s) => s.id)),
+        );
+        if (selectedSubjects.some((id) => !available.has(id)))
+          throw new Error(
+            "A selected subject is unavailable for these classes.",
+          );
         const event = await tx.examination.create({
           data: {
             title,
@@ -58,10 +72,9 @@ export async function createExamination(_: ActionState, data: FormData) {
           },
         });
         for (const c of cohorts) {
-          if (!c.subjects.length || !c.studentEnrollments.length)
+          if (!c.studentEnrollments.length)
             throw new Error(
-              c.displayName +
-                " needs subjects and active students before creating an exam.",
+              c.displayName + " needs active students before creating an exam.",
             );
           await tx.exam.create({
             data: {
@@ -71,15 +84,48 @@ export async function createExamination(_: ActionState, data: FormData) {
               date,
               markEntryDueDate,
               publishDate,
+              resultsPublic:
+                z
+                  .enum(["public", "private"])
+                  .parse(field(data, "visibility") || "private") === "public",
               subjects: {
-                create: c.subjects.map((s) => ({
-                  cohortSubjectId: s.id,
-                  markingTutorId: s.tutorId,
-                  name: s.subject.name,
-                  maxMarks: s.maxMarks,
-                  passMarks: s.passMarks,
-                  studyStreamCode: s.studyStreamCode,
-                })),
+                create: c.subjects
+                  .filter(
+                    (s) =>
+                      !explicitSelection || selectedSubjects.includes(s.id),
+                  )
+                  .map((s) => {
+                    const maxMarks = explicitSelection
+                      ? z.coerce
+                          .number()
+                          .positive()
+                          .max(10000)
+                          .parse(field(data, "max_" + s.id))
+                      : s.maxMarks;
+                    const passMarks = explicitSelection
+                      ? z.coerce
+                          .number()
+                          .min(0)
+                          .max(maxMarks)
+                          .parse(field(data, "pass_" + s.id))
+                      : s.passMarks;
+                    if (
+                      [maxMarks, passMarks].some(
+                        (n) => Math.abs(n * 100 - Math.round(n * 100)) > 1e-7,
+                      )
+                    )
+                      throw new Error(
+                        "Marks support at most two decimal places.",
+                      );
+                    return {
+                      cohortSubjectId: s.id,
+                      markingTutorId: s.tutorId,
+                      name: s.subject.name,
+                      maxMarks,
+                      passMarks,
+                      studyStreamCode: s.studyStreamCode,
+                    };
+                  }),
               },
               candidates: {
                 create: c.studentEnrollments.map((e) => ({
@@ -288,5 +334,40 @@ export async function saveExamSchedule(_: ActionState, data: FormData) {
       });
     });
     return "Class examination schedule updated.";
+  });
+}
+
+export async function saveResultVisibility(_: ActionState, data: FormData) {
+  return runAction(async () => {
+    const actor = await actionUser(true),
+      examId = id(data, "examId");
+    const revision = z.coerce
+      .number()
+      .int()
+      .nonnegative()
+      .parse(field(data, "revision"));
+    const resultsPublic =
+      z.enum(["public", "private"]).parse(field(data, "visibility")) ===
+      "public";
+    await prisma.$transaction(async (tx) => {
+      const changed = await tx.exam.updateMany({
+        where: { id: examId, revision, isArchived: false },
+        data: { resultsPublic, revision: { increment: 1 } },
+      });
+      if (!changed.count)
+        throw new Error("Refresh the examination before changing visibility.");
+      await tx.auditLog.create({
+        data: {
+          actorId: actor.id,
+          action: "EXAM_VISIBILITY",
+          entityType: "Exam",
+          entityId: examId,
+          details: { resultsPublic },
+        },
+      });
+    });
+    return resultsPublic
+      ? "Results are public after finalization and the publish date."
+      : "Results are private.";
   });
 }

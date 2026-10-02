@@ -16,9 +16,9 @@ export function Panel({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold text-[#071a33]">{title}</h2>
-      {children}
+    <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+      <h2 className="text-lg font-semibold border-b p-5 py-3.5 border-slate-200 text-[#071a33]">{title}</h2>
+      <div className="p-5">{children}</div>
     </section>
   );
 }
