@@ -13,6 +13,8 @@ export function Dialog({
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const closeHandler = useRef(onClose);
+  closeHandler.current = onClose;
   const id = useId();
   const [dirty, setDirty] = useState(false),
     [discard, setDiscard] = useState(false);
@@ -48,11 +50,11 @@ export function Dialog({
     const el = ref.current;
     const saved = () => {
       setDirty(false);
-      onClose();
+      closeHandler.current();
     };
     el?.addEventListener("erp:saved", saved);
     return () => el?.removeEventListener("erp:saved", saved);
-  }, [onClose]);
+  }, []);
   const close = () => {
     if (ref.current?.querySelector('[data-pending="true"]')) return;
     if (dirty) setDiscard(true);
@@ -67,7 +69,7 @@ export function Dialog({
         close();
       }}
       onChangeCapture={() => setDirty(true)}
-      className="m-auto h-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto overscroll-contain rounded-2xl bg-white p-0 text-slate-800 shadow-2xl backdrop:bg-slate-950/50"
+      className="dashboard-font m-auto h-fit min-h-0 max-h-[min(80dvh,44rem)] w-[calc(100%-2rem)] max-w-xl overflow-y-auto overscroll-contain rounded-2xl bg-white p-0 text-slate-800 shadow-2xl backdrop:bg-slate-950/50"
     >
       <div className="sticky top-0 z-20 flex items-center justify-between border-b bg-white px-6 py-4">
         <h2 id={id} className="text-lg font-semibold">

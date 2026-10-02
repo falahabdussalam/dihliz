@@ -22,18 +22,6 @@ export async function schoolScope(user: AuthUser, yearId: string) {
         : {
             OR: [
               { id: { in: explicit } },
-              ...(user.role === "SUBJECT_TUTOR"
-                ? [
-                    {
-                      exams: {
-                        some: {
-                          isArchived: false,
-                          subjects: { some: { markingTutorId: user.id } },
-                        },
-                      },
-                    },
-                  ]
-                : []),
               {
                 subjects: {
                   some: {
@@ -72,8 +60,5 @@ export function canEditExamSubject(
   cohortId: string,
   subject: { tutorId: string | null; subject: { departmentId: string } },
 ) {
-  return (
-    canReadExamSubject(user, scope, cohortId, subject) &&
-    user.role !== "CLASS_MENTOR"
-  );
+  return canReadExamSubject(user, scope, cohortId, subject);
 }

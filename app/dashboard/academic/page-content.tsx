@@ -1,4 +1,6 @@
 "use client";
+import Select from "@/components/dashboard/Select";
+
 import EditStructure from "@/features/academics/EditStructure";
 import Link from "next/link";
 import ConfirmButton from "@/components/dashboard/ConfirmButton";
@@ -336,7 +338,7 @@ export default function AcademicSetup({
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <select
+            <Select
               value={selectedYearId}
               onChange={(event) => setSelectedYearId(event.target.value)}
               className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium"
@@ -346,7 +348,7 @@ export default function AcademicSetup({
                   {year.name}
                 </option>
               ))}
-            </select>
+            </Select>
             {canManage && selectedYear && (
               <button
                 onClick={() => setShowCohortForm((value) => !value)}
@@ -391,34 +393,34 @@ export default function AcademicSetup({
                 />
               </FormField>
               <FormField label="Class">
-                <select name="classLevelId" required className={inputClass}>
+                <Select name="classLevelId" required className={inputClass}>
                   <option value="">Select</option>
                   {classLevels.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.name}
                     </option>
                   ))}
-                </select>
+                </Select>
               </FormField>
               <FormField label="Division">
-                <select name="divisionId" className={inputClass}>
+                <Select name="divisionId" className={inputClass}>
                   <option value="">None</option>
                   {divisions.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.name}
                     </option>
                   ))}
-                </select>
+                </Select>
               </FormField>
               <FormField label="Stream">
-                <select name="streamId" className={inputClass}>
+                <Select name="streamId" className={inputClass}>
                   <option value="">None</option>
                   {streams.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.name}
                     </option>
                   ))}
-                </select>
+                </Select>
               </FormField>
               <div className="flex items-end">
                 <button

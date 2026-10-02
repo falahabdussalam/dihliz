@@ -1,4 +1,6 @@
 "use server";
+import { canEnterExamMarks } from "@/lib/exam-lifecycle";
+import { examStage, examDay } from "@/lib/exam-lifecycle";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
@@ -261,8 +263,10 @@ export async function saveMarks(_state: ActionState, data: FormData) {
       throw new Error(
         "You are not assigned to enter marks for these subjects.",
       );
-    if (workspace.exam.status !== "DRAFT" || workspace.exam.isArchived)
-      throw new Error("Only draft exams accept marks.");
+    if (!canEnterExamMarks(workspace.exam, actor.role))
+      throw new Error(
+        "Mark entry is available only while the exam is ongoing.",
+      );
     const candidateById = new Map(workspace.candidates.map((c) => [c.id, c]));
     const subjectById = new Map(editable.map((s) => [s.id, s]));
     const cells = Array.from(data.entries()).filter(([key]) =>
@@ -300,13 +304,35 @@ export async function saveMarks(_state: ActionState, data: FormData) {
         status === "SCORED" ? validateScore(raw, subject.maxMarks) : null;
       return { candidateId, examSubjectId, status, score, clear: raw === "" };
     });
+    if (workspace.exam.status !== "DRAFT" && updates.some((cell) => cell.clear))
+      throw new Error(
+        "Finalized marks cannot be left blank. Enter a score, ABSENT or NA.",
+      );
+    const changedUpdates = updates.filter((cell) => {
+      const saved = candidateById
+        .get(cell.candidateId)
+        ?.marks.find((mark) => mark.examSubjectId === cell.examSubjectId);
+      return cell.clear
+        ? !!saved
+        : !saved || saved.status !== cell.status || saved.score !== cell.score;
+    });
     await prisma.$transaction(
       async (tx) => {
         const locked = await tx.exam.updateMany({
           where: {
             id: examId,
             revision: expectedRevision,
-            status: "DRAFT",
+            status:
+              actor.role === "SUPER_ADMIN" ? workspace.exam.status : "DRAFT",
+            date: { lte: examDay() },
+            ...(actor.role === "SUPER_ADMIN"
+              ? {}
+              : {
+                  OR: [
+                    { markEntryDueDate: null },
+                    { markEntryDueDate: { gte: examDay() } },
+                  ],
+                }),
             isArchived: false,
           },
           data: { revision: { increment: 1 } },
@@ -315,7 +341,7 @@ export async function saveMarks(_state: ActionState, data: FormData) {
           throw new Error(
             "The exam changed while you were editing. Refresh before saving.",
           );
-        for (const cell of updates) {
+        for (const cell of changedUpdates) {
           if (cell.clear)
             await tx.examMark.deleteMany({
               where: {
@@ -348,7 +374,13 @@ export async function saveMarks(_state: ActionState, data: FormData) {
             action: "SAVE_MARKS",
             entityType: "Exam",
             entityId: examId,
-            details: { cells: updates.length },
+            details: {
+              cells: changedUpdates.length,
+              adminCorrection:
+                actor.role === "SUPER_ADMIN" &&
+                examStage(workspace.exam) !== "Ongoing",
+              examStatus: workspace.exam.status,
+            },
           },
         });
       },
@@ -385,6 +417,11 @@ export async function changeExamStatus(_state: ActionState, data: FormData) {
         throw new Error("Only a draft exam can be finalized.");
       if (next === "ARCHIVE" && exam.status !== "DRAFT")
         throw new Error("Only a draft exam can be archived.");
+      if (
+        next === "FINAL" &&
+        (!exam.subjects.length || !exam.candidates.length)
+      )
+        throw new Error("Add subjects and students before finalizing results.");
       if (
         next === "FINAL" &&
         exam.candidates.some(

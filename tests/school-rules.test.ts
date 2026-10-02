@@ -39,7 +39,8 @@ test("exam subject access is fail-closed for staff and department scopes", () =>
   assert.equal(canEditExamSubject({ ...base, role: "SUBJECT_TUTOR" }, scope, "cohort", subject), true);
   assert.equal(canEditExamSubject({ ...base, id: "other", role: "SUBJECT_TUTOR" }, scope, "cohort", subject), false);
   assert.equal(canReadExamSubject({ ...base, role: "CLASS_MENTOR" }, scope, "cohort", subject), true);
-  assert.equal(canEditExamSubject({ ...base, role: "CLASS_MENTOR" }, scope, "cohort", subject), false);
+  assert.equal(canEditExamSubject({ ...base, role: "CLASS_MENTOR" }, scope, "cohort", subject), true);
+  assert.equal(canEditExamSubject({ ...base, role: "CLASS_MENTOR" }, scope, "other-cohort", subject), false);
   assert.equal(canReadExamSubject({ ...base, role: "HOSTEL_MENTOR" }, scope, "cohort", subject), false);
   assert.equal(canReadExamSubject({ ...base, role: "DEPARTMENT_HEAD" }, { ...scope, departmentIds: [] }, "cohort", subject), false);
 });

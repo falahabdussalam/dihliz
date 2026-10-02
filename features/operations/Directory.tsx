@@ -1,3 +1,5 @@
+import Pagination from "@/components/dashboard/Pagination";
+import Select from "@/components/dashboard/Select";
 import AttendanceChooser from "./AttendanceChooser";
 import Link from "next/link";
 import { requirePageUser } from "@/lib/auth";
@@ -42,7 +44,13 @@ export default async function Directory({
     .filter((c) => !filters.cohort || c.id === filters.cohort)
     .map((c) => c.id);
   const where = { cohortId: { in: cohortIds } };
-  const page = Math.max(1, parseInt(filters.page ?? "1") || 1);
+  const total =
+    kind === "attendance"
+      ? await prisma.attendanceRegister.count({ where })
+      : await prisma.performanceRegister.count({
+          where: { ...where, category },
+        });
+  const page = Math.min(Math.max(1, Math.ceil(total / 25)), Math.max(1, parseInt(filters.page ?? "1") || 1));
   const rows =
     kind === "attendance"
       ? await prisma.attendanceRegister.findMany({
@@ -58,12 +66,6 @@ export default async function Directory({
           orderBy: { month: "desc" },
           take: 25,
           skip: (page - 1) * 25,
-        });
-  const total =
-    kind === "attendance"
-      ? await prisma.attendanceRegister.count({ where })
-      : await prisma.performanceRegister.count({
-          where: { ...where, category },
         });
   const criteria =
     kind === "performance" && scope.admin
@@ -102,13 +104,13 @@ export default async function Directory({
                   <input type="hidden" name="kind" value={kind} />
                   <input type="hidden" name="category" value={category} />
                   <Field label="Class">
-                    <select className={inputClass} name="cohortId" required>
+                    <Select className={inputClass} name="cohortId" required>
                       {scope.cohorts.map((c) => (
                         <option key={c.id} value={c.id}>
                           {c.displayName}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </Field>
                   <Field
                     label={kind === "attendance" ? "Date" : "Month (first day)"}
@@ -137,7 +139,7 @@ export default async function Directory({
         <Panel title="Registers">
           <form className="mb-5 flex flex-wrap items-end gap-3">
             <Field label="Academic year">
-              <select
+              <Select
                 className={inputClass}
                 name="year"
                 defaultValue={year?.id}
@@ -147,10 +149,10 @@ export default async function Directory({
                     {y.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
             <Field label="Class">
-              <select
+              <Select
                 className={inputClass}
                 name="cohort"
                 defaultValue={filters.cohort}
@@ -161,11 +163,11 @@ export default async function Directory({
                     {c.displayName}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
             {kind === "performance" && (
               <Field label="Category">
-                <select
+                <Select
                   name="category"
                   defaultValue={category}
                   className={inputClass}
@@ -184,7 +186,7 @@ export default async function Directory({
                         {label}
                       </option>
                     ))}
-                </select>
+                </Select>
               </Field>
             )}
             <button className={linkClass}>Apply filters</button>
@@ -215,19 +217,7 @@ export default async function Directory({
           {!rows.length && (
             <Empty>No registers in this view. Open a register to begin.</Empty>
           )}
-          <div className="mt-4 flex justify-between">
-            <Link className={linkClass} href={url(Math.max(1, page - 1))}>
-              Previous
-            </Link>
-            <span className="text-sm">
-              {total} registers · Page {page}
-            </span>
-            {page * 25 < total && (
-              <Link className={linkClass} href={url(page + 1)}>
-                Next
-              </Link>
-            )}
-          </div>
+          <Pagination currentPage={page} totalPages={Math.ceil(total / 25)} total={total} />
         </Panel>
         {kind === "performance" && scope.admin && (
           <Panel title="Category criteria">

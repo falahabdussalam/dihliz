@@ -1,4 +1,6 @@
 "use client";
+import Select from "@/components/dashboard/Select";
+
 import ConfirmButton from "@/components/dashboard/ConfirmButton";
 import { Dialog } from "@/components/dashboard/Dialog";
 
@@ -191,7 +193,7 @@ export default function StaffAccess({
                 />
               </Field>
               <Field label="Role">
-                <select
+                <Select
                   name="role"
                   value={selectedRole}
                   onChange={(event) =>
@@ -205,29 +207,29 @@ export default function StaffAccess({
                   <option value={UserRole.CLASS_MENTOR}>Class Mentor</option>
                   <option value={UserRole.HOSTEL_MENTOR}>Hostel Mentor</option>
                   <option value={UserRole.SUBJECT_TUTOR}>Subject Tutor</option>
-                </select>
+                </Select>
               </Field>
               {selectedRole === UserRole.DEPARTMENT_HEAD ? (
                 <Field label="Department">
-                  <select name="departmentId" required className={inputClass}>
+                  <Select name="departmentId" required className={inputClass}>
                     <option value="">Select department</option>
                     {departments.map((item) => (
                       <option key={item.id} value={item.id}>
                         {item.name}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </Field>
               ) : (
                 <Field label="Cohort">
-                  <select name="cohortId" required className={inputClass}>
+                  <Select name="cohortId" required className={inputClass}>
                     <option value="">Select cohort</option>
                     {cohorts.map((item) => (
                       <option key={item.id} value={item.id}>
                         {item.displayName}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </Field>
               )}
               <div className="flex items-end">

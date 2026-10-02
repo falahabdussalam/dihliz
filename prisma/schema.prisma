@@ -46,6 +46,7 @@ model CohortSubject {
 }
 
 model Exam {
+  resultsPublic Boolean @default(false)
   eventId    String
   event      Examination     @relation(fields: [eventId], references: [id], onDelete: Restrict)
   id         String          @id @default(cuid())

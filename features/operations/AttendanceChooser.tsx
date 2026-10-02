@@ -1,4 +1,6 @@
 "use client";
+import Select from "@/components/dashboard/Select";
+
 import { useState } from "react";
 import { Field, inputClass, linkClass } from "@/components/dashboard/SchoolUI";
 export default function AttendanceChooser({
@@ -17,16 +19,16 @@ export default function AttendanceChooser({
     <form action="/dashboard/attendance/entry" className="space-y-4">
       <input type="hidden" name="year" value={year} />
       <Field label="Class">
-        <select name="cohort" required className={inputClass}>
+        <Select name="cohort" required className={inputClass}>
           {classes.map((c) => (
             <option value={c.id} key={c.id}>
               {c.displayName}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
       <Field label="Entry period">
-        <select
+        <Select
           name="mode"
           value={mode}
           onChange={(e) => setMode(e.target.value)}
@@ -35,7 +37,7 @@ export default function AttendanceChooser({
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
-        </select>
+        </Select>
       </Field>
       <Field
         label={
