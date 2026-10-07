@@ -1,3 +1,5 @@
+"use client";
+
 import { AiOutlinePrinter } from "react-icons/ai"
 
 const ViewAdmission = (props:any) => {

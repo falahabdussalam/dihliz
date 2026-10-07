@@ -1,5 +1,7 @@
+"use client";
+
 import { MdOutlineScience} from 'react-icons/md';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { BiBuildings, BiCalculator } from 'react-icons/bi';
 
 

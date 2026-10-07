@@ -1,3 +1,5 @@
+"use client";
+
 import registerNew from "@/functions/admission/regsiter";
 import { useState } from "react";
 

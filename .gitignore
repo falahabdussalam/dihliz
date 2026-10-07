@@ -26,7 +26,11 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env*.local
+
+# generated database client
+/generated/prisma
 
 # vercel
 .vercel
@@ -34,3 +38,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# private database and student-import artifacts
+/.local/
+.neon

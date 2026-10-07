@@ -1,7 +1,6 @@
-import Cookies from "js-cookie";
+const logout = async () => {
+  await fetch("/api/auth/logout", { method: "POST" });
+  window.location.replace("/login");
+};
 
-const logout = ()=>{
-Cookies.remove('token');
-window.location.replace('/cpanel/login');
-}
 export default logout;

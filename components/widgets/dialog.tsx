@@ -1,3 +1,5 @@
+"use client";
+
 const Dialog = (props:any) => {
     if(props.open){
         return (
