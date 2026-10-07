@@ -38,7 +38,9 @@ openssl rand -hex 32
 ```
 
 Edit `.env` and replace `POSTGRES_PASSWORD` with the generated hex password.
-Hex avoids URL escaping when Compose constructs the database connection URLs.
+Both services load the `.env` file in the same directory as `compose.yaml` through
+`env_file`. The database URLs in `.env` reference its PostgreSQL credentials;
+Compose expands those references. Hex avoids URL escaping in those URLs.
 For a private repository, transfer the two files from your checkout instead of
 using the download commands.
 
@@ -89,10 +91,10 @@ credentials used to initialize an existing volume.
 
 ```sh
 docker build -t dihliz-web-next:local .
-WEB_IMAGE=dihliz-web-next:local docker compose --env-file .env.docker up -d --pull never --wait
+WEB_IMAGE=dihliz-web-next:local docker compose up -d --pull never --wait
 ```
 
-For the local commands, copy `.env.docker.example` to `.env.docker` and set its
+For the local commands, copy `.env.docker.example` to `.env` beside `compose.yaml` and set its
 password first. The `--pull never` override uses the locally built image.
 
 ## Original starter

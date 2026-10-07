@@ -8,13 +8,8 @@ services:
     init: true
     ports:
       - "${WEB_PORT:-3000}:3000"
-    environment:
-      NODE_ENV: production
-      PORT: "3000"
-      HOSTNAME: 0.0.0.0
-      DATABASE_URL: "postgresql://${POSTGRES_USER:-dihliz}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-dihliz}?sslmode=disable"
-      DATABASE_URL_UNPOOLED: "postgresql://${POSTGRES_USER:-dihliz}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-dihliz}?sslmode=disable"
-      DATABASE_CONNECTION_LIMIT: "${DATABASE_CONNECTION_LIMIT:-5}"
+    env_file:
+      - .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -29,10 +24,8 @@ services:
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-dihliz}
-      POSTGRES_USER: ${POSTGRES_USER:-dihliz}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
