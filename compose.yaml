@@ -10,6 +10,10 @@ services:
       - "${WEB_PORT:-3000}:3000"
     env_file:
       - .env
+    environment:
+      # Use the same credentials as the postgres service, with its internal hostname.
+      DATABASE_URL: "postgresql://${POSTGRES_USER:?Set POSTGRES_USER in .env}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:?Set POSTGRES_DB in .env}?sslmode=disable"
+      DATABASE_URL_UNPOOLED: "postgresql://${POSTGRES_USER:?Set POSTGRES_USER in .env}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:?Set POSTGRES_DB in .env}?sslmode=disable"
     depends_on:
       postgres:
         condition: service_healthy
@@ -24,8 +28,10 @@ services:
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

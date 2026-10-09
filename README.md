@@ -38,9 +38,11 @@ openssl rand -hex 32
 ```
 
 Edit `.env` and replace `POSTGRES_PASSWORD` with the generated hex password.
-Both services load the `.env` file in the same directory as `compose.yaml` through
-`env_file`. The database URLs in `.env` reference its PostgreSQL credentials;
-Compose expands those references. Hex avoids URL escaping in those URLs.
+Compose reads `POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` from the
+`.env` file beside `compose.yaml`. It passes those credentials to PostgreSQL and
+builds the web container's database URLs from the same values, using `postgres`
+as the internal hostname. The web service also loads other app settings through
+`env_file`. Hex avoids URL escaping in the database URLs.
 For a private repository, transfer the two files from your checkout instead of
 using the download commands.
 
