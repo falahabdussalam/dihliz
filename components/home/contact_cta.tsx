@@ -33,7 +33,7 @@ const ContactCta = () => {
                     <ul className="space-y-4 text-white">
                         <li className="flex items-start gap-4">
                             <HiOutlineLocationMarker className="mt-0.5 text-2xl shrink-0 text-lime-50" />
-                            <span>Markaz Garden, Poonoor, Calicut, Kerala, India – 673574</span>
+                            <span>Markaz Garden, Poonoor, Calicut, Kerala, India 673574</span>
                         </li>
                         <li>
                             <a href="tel:04952963484" className="flex items-center gap-4 hover:underline">

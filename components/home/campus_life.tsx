@@ -22,7 +22,7 @@ const CampusLife = () => {
                         light
                         align="left"
                         title={<>Learning that goes <span className="text-lime-500">beyond textbooks</span></>}
-                        subtitle="Life at the Markaz Garden Global Students' Village is vibrant, peaceful and purposeful — every day is designed to grow the mind, body and soul."
+                        subtitle="Life at the Markaz Garden Global Students' Village is vibrant, peaceful and purposeful. Every day is designed to grow the mind, body and soul."
                     />
                     <div className="relative -mt-4 overflow-hidden rounded-2xl ring-1 ring-white/10">
                         <img src="/img/about1.jpg" alt="Campus life at Dihliz" className="h-56 w-full object-cover" />

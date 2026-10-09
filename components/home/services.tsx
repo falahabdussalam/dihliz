@@ -40,7 +40,7 @@ const items = [
     {
         title: "Personalised Training",
         description:
-            "Individual attention within a well-designed curriculum brings out hidden talents — mentally, physically and intellectually.",
+            "Individual attention within a well-designed curriculum brings out hidden talents: mentally, physically and intellectually.",
         icon: BsPersonLinesFill,
     },
 ];

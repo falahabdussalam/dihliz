@@ -4,9 +4,9 @@ import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
 import { FaQuoteLeft } from "react-icons/fa";
 
-const SecondAbout = () => {
+const SecondAbout = ({ showLink = true }: { showLink?: boolean }) => {
     return (
-        <div className="px-6 lg:px-32 py-24 grid lg:grid-cols-5 gap-14 items-center bg-white">
+        <div className="px-6 lg:px-32 py-24 grid lg:grid-cols-5 gap-14 items-center">
             <section className="lg:col-span-2 flex justify-center lg:order-2" data-aos="fade-left">
                 <div className="relative w-9/12 lg:w-10/12">
                     <div
@@ -33,13 +33,15 @@ const SecondAbout = () => {
                 </blockquote>
                 <p className="mt-5 text-gray-500 leading-relaxed">
                     Set in a serene garden, Dihliz delivers the competitive advantages and global experience of
-                    commerce, science and high school. The need of the hour — to mould ethically inspired professionals
-                    and leaders — is met through the Islamic value system at this garden of innovative mission and
+                    commerce, science and high school. The need of the hour, to mould ethically inspired professionals
+                    and leaders, is met through the Islamic value system at this garden of innovative mission and
                     practical wisdom.
                 </p>
-                <Link href="/about" className="btn btn-primary text-white rounded-full px-7 gap-2 mt-8">
-                    Read More <BsArrowRight />
-                </Link>
+                {showLink && (
+                    <Link href="/about" className="btn btn-primary text-white rounded-full px-7 gap-2 mt-8">
+                        Read More <BsArrowRight />
+                    </Link>
+                )}
             </section>
         </div>
     );

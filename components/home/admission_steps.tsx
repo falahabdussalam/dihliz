@@ -9,12 +9,12 @@ const steps = [
     { title: "Face to Face Interview", description: "A personal interview, followed by confirmation via official mail.", icon: FaComments },
 ];
 
-const AdmissionSteps = () => {
+const AdmissionSteps = ({ ctaHref = "/admission" }: { ctaHref?: string }) => {
     return (
         <div className="bg-lime-50 px-6 lg:px-32 py-24">
             <SectionTitle
                 title={<>Your path to <span className="text-dihliz-500">Dihliz</span> in three steps</>}
-                subtitle="Every applicant goes through each phase — there is no sideway entry into any of our courses."
+                subtitle="Every applicant goes through each phase. There is no sideway entry into any of our courses."
             />
 
             <div className="relative grid md:grid-cols-3 gap-8">
@@ -37,7 +37,7 @@ const AdmissionSteps = () => {
             </div>
 
             <div className="mt-14 text-center" data-aos="fade-up">
-                <Link href="/admission" className="btn btn-primary text-white rounded-full px-8 gap-2 shadow-lg shadow-dihliz-500/20">
+                <Link href={ctaHref} className="btn btn-primary text-white rounded-full px-8 gap-2 shadow-lg shadow-dihliz-500/20">
                     Go to Admission Portal <BsArrowRight />
                 </Link>
             </div>

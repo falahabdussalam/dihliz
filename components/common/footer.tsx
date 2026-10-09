@@ -57,7 +57,7 @@ const Footer = () => {
                     <ul className="space-y-3 text-sm">
                         <li className="flex items-start gap-3">
                             <HiOutlineLocationMarker className="mt-0.5 text-lg shrink-0 text-lime-500" />
-                            Markaz Garden, Poonoor, Calicut, Kerala, India – 673574
+                            Markaz Garden, Poonoor, Calicut, Kerala, India 673574
                         </li>
                         <li>
                             <a href="tel:04952963484" className="flex items-center gap-3 hover:text-lime-500">
