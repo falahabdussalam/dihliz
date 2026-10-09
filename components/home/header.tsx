@@ -1,93 +1,77 @@
 "use client";
 
-import { useState, useEffect } from "react"
+import Link from "next/link";
+import { BsArrowRight } from "react-icons/bs";
 
 const HomeHeader = () => {
-  
-
-        
-          const [index, setIndex] = useState(0);
-          useEffect(() => {
-              var homeVideo = document.getElementById('homeVideo');
-              homeVideo!.style.minHeight=window.innerHeight + "px";
-
-            const intervalId = setInterval(()=>{
-              setIndex(index => index + 1);
-            },
-              5000 
-            );
-            return () => clearTimeout(intervalId);
-          }, []);
     return (
-        <div className="relative"
-        id="homeVideo"
-        style={{
-            width:"100%",
-            overflow:"hidden"
-              }}
-        >
-        <main 
-      className="absolute bg-black w-full h-full"
-      >
+        <div className="relative w-full overflow-hidden bg-black min-h-[calc(100svh-5rem)] flex items-center">
+            <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url('/img/bg.jpg')" }}
+            ></div>
+            <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/img/bg.jpg"
+                className="absolute inset-0 h-full w-full object-cover"
+            >
+                <source src="/bg.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 backdrop-blur-[6px] bg-gradient-to-b from-black/75 via-black/65 to-forest-900/95"></div>
 
+            <section className="relative w-full px-6 lg:px-32 py-24 text-center">
+                <img
+                    src="/img/white.png"
+                    className="w-24 lg:w-28 mx-auto"
+                    data-aos="fade-down"
+                    data-aos-delay="200"
+                    alt="Dihliz World School"
+                />
+                <h1
+                    className="mt-8 text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight"
+                    data-aos="fade-down"
+                    data-aos-delay="400"
+                >
+                    A Global Gateway to <br className="hidden md:block" />
+                    <span className="text-lime-500">Cutting-Edge</span> Schooling
+                </h1>
+                <p
+                    className="mt-5 mx-auto max-w-2xl text-white/80 text-base lg:text-lg leading-relaxed"
+                    data-aos="fade-down"
+                    data-aos-delay="600"
+                >
+                    Creating, moulding and developing ethically sound professionals through an outstanding
+                    residential curriculum rooted in values.
+                </p>
 
-<section className="absolute w-full h-full"
-style={{
-  backgroundImage: "url('/img/bg.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    width:"100%",
-    height:"100%",
-}}></section>
+                <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center" data-aos="fade-up" data-aos-delay="800">
+                    <Link
+                        href="/admission"
+                        className="btn btn-primary text-white rounded-full px-8 gap-2 shadow-lg shadow-dihliz-500/30"
+                    >
+                        Apply for Admission <BsArrowRight />
+                    </Link>
+                    <a
+                        href="#about"
+                        className="btn rounded-full px-8 bg-white/10 text-white border border-white/30 hover:bg-white hover:text-dihliz-600 backdrop-blur"
+                    >
+                        Explore Dihliz
+                    </a>
+                </div>
+            </section>
 
-
-<section className="absolute w-full h-full"
-style={{
-    width:"100%",
-    height:"100%",
- 
-}}
->
-
-<video autoPlay muted loop playsInline
-style={{ height: "100%", width: "100%", objectFit: "cover",
-}}
-
-><source src="/bg.mp4" type="video/mp4">
-    </source>
-</video>
-
-</section>
-
-
-
-<div className="absolute bg-black bg-opacity-50 w-full h-full"></div>
-    <section className="absolute w-full h-full flex justify-center items-center">
-       <div className="w-full text-center">
-        <img src="/img/white.png" className="w-52 m-auto" data-aos="fade-down" data-aos-delay="300" alt="Dihliz World School" />
-       <h1 className="text-lime-500 font-bold text-3xl" data-aos="fade-down" data-aos-delay="500" >Dihliz World School  </h1>
-        <div className="px-10 lg:w-6/12 m-auto text-center text-white" data-aos="fade-down" data-aos-delay="700" >
-        A Global Gateway to the Cutting - Edge Schooling with a vision that called for creating, molding and developing 
-        ethically sound professionals in the fields concerned.
-
+            <a
+                href="#about"
+                aria-label="Scroll down"
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex h-11 w-7 items-start justify-center rounded-full border-2 border-white/50 p-1.5"
+            >
+                <span className="h-2 w-1 rounded-full bg-white animate-bounce"></span>
+            </a>
         </div>
-       
-       <a className="btn btn-primary text-white mt-8" data-aos="fade-up" data-aos-delay="1000" 
-       href="#about"
-       >Explore</a>
-       </div>
-
-    </section>
- 
- 
-      {/* <div className="absolute z-50 flex w-full justify-between bottom-4  text-white lg:px-11 px-6">
-<div className=""></div>
-<SocialIcons/>
-      </div> */}
-      </main>
-      </div>
     );
-}
- 
+};
+
 export default HomeHeader;

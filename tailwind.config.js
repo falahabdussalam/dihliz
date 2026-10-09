@@ -10,6 +10,10 @@ module.exports = {
 
       colors: {
         'primary': '#289942',
+        forest: {
+          800: '#123d1e',
+          900: '#0b2914',
+        },
         dihliz:{
 
           50: '#efe7ea',

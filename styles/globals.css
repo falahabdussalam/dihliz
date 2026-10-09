@@ -8,6 +8,16 @@
 }
 @font-face {
   font-family: "Raleway";
+  src: url("/fonts/Raleway-SemiBold.ttf");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway-Bold.ttf");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Raleway";
   src: url("/fonts/Raleway-ExtraBold.ttf");
   font-weight: 800;
 }

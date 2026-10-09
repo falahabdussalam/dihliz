@@ -3,27 +3,30 @@
 import Footer from '@/components/common/footer'
 import NavBar from '@/components/common/nav'
 import About from '@/components/home/about'
+import AdmissionSteps from '@/components/home/admission_steps'
+import CampusLife from '@/components/home/campus_life'
+import ContactCta from '@/components/home/contact_cta'
 import Courses from '@/components/home/courses'
 import HomeHeader from '@/components/home/header'
-import LargeLogo from '@/components/home/large_logo'
-// import NewsEvents from '@/components/home/news'
+import Leadership from '@/components/home/leadership'
 import SecondAbout from '@/components/home/secondabout'
 import Services from '@/components/home/services'
-import Image from 'next/image'
+import Stats from '@/components/home/stats'
 
 const Home = () => {
   return (
-    <div className="overflow-x-hidden">
-      
+    <div className="overflow-x-hidden bg-white">
       <NavBar active="Home"/>
       <HomeHeader/>
+      <Stats/>
       <About/>
       <Services/>
-      <SecondAbout/>
       <Courses/>
-      {/* <Vision/>
-      <NewsEvents/>
-      <LargeLogo/> */}
+      <CampusLife/>
+      <SecondAbout/>
+      <AdmissionSteps/>
+      <Leadership/>
+      <ContactCta/>
       <Footer/>
     </div>
   )
