@@ -17,10 +17,10 @@ export default function Tabs({
           href={item.href}
           aria-current={active === item.id ? "page" : undefined}
           className={
-            "whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium " +
+            "whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-all duration-150 " +
             (active === item.id
-              ? "border-emerald-700 text-emerald-800"
-              : "border-transparent text-slate-500 hover:text-slate-900")
+              ? "border-[#0b7a4b] text-[#0b7a4b] font-semibold"
+              : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-900 hover:bg-slate-50/70")
           }
         >
           {item.label}

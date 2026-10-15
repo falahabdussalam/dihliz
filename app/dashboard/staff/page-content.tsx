@@ -257,9 +257,12 @@ export default function StaffAccess({
             </thead>
             <tbody className="divide-y divide-slate-100">
               {staff.map((item) => (
-                <tr key={item.id} className="hover:bg-slate-50/70">
+                <tr
+                  key={item.id}
+                  className="group/row transition-all duration-200 hover:bg-emerald-50/25 hover:shadow-[inset_3px_0_0_0_#0b7a4b]"
+                >
                   <td className="px-6 py-4">
-                    <p className="font-semibold text-[#071a33]">
+                    <p className="font-semibold text-[#071a33] transition-colors duration-200 group-hover/row:text-[#0b7a4b]">
                       {item.fullName}
                     </p>
                     <p className="mt-1 text-xs text-slate-500">{item.email}</p>

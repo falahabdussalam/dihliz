@@ -80,38 +80,44 @@ export default function DashboardLayout({
         <Link
           key={item.href}
           href={item.href}
+          prefetch={true}
           onClick={() => setMobileOpen(false)}
           className={
             active
-              ? "flex items-center gap-3 rounded-lg bg-emerald-50 px-3 py-2.5 text-sm font-semibold text-[#0b7a4b]"
-              : "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#0b7a4b]"
+              ? "group relative flex items-center gap-2.5 rounded-xl bg-emerald-50/80 px-3 py-2 text-sm font-semibold text-emerald-900 border border-emerald-200/60 shadow-2xs transition-all duration-150"
+              : "group relative flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition-all duration-150 hover:bg-slate-100/70 hover:text-slate-900"
           }
         >
           <span
             className={
               active
-                ? "flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b7a4b] text-white shadow-sm"
-                : "flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-500"
+                ? "flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-2xs transition-transform"
+                : "flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 group-hover:text-slate-700 transition-colors"
             }
           >
             <Icon className="text-base" />
           </span>
-          {item.label}
+          <span className="truncate">{item.label}</span>
+          {active && (
+            <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-600" />
+          )}
         </Link>
       );
     });
 
   const sidebar = (
     <div className="flex h-full flex-col bg-white">
-      <div className="flex h-[74px] items-center gap-3 border-b border-slate-200 px-10">
-        <img
-          src="/img/top.png"
-          alt="Dihliz World School"
-          className="h-auto w-full object-contain"
-        />
+      <div className="flex h-16 items-center px-5 border-b border-slate-100 bg-white">
+        <Link href="/dashboard" className="flex items-center gap-2.5 group">
+          <img
+            src="/img/top.png"
+            alt="Dihliz World School"
+            className="h-8 w-auto max-w-[170px] object-contain transition-opacity duration-200 group-hover:opacity-90"
+          />
+        </Link>
       </div>
 
-      <nav className="erp-scrollbar flex-1 overflow-y-auto px-4 py-5">
+      <nav className="flex-1 overflow-y-auto px-3.5 py-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {[
           {
             name: "Overview",
@@ -161,32 +167,32 @@ export default function DashboardLayout({
         ]
           .filter((g) => g.items.length)
           .map((group) => (
-            <div key={group.name} className="mb-5">
-              <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <div key={group.name} className="mb-4">
+              <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">
                 {group.name}
               </p>
-              <div className="space-y-1">{renderNavigation(group.items)}</div>
+              <div className="space-y-0.5">{renderNavigation(group.items)}</div>
             </div>
           ))}
       </nav>
 
-      <div className="border-t border-slate-200 p-4">
+      <div className="border-t border-slate-100 p-3">
         <button
           onClick={logout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-red-50 hover:text-red-600"
+          className="group flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-slate-500 transition-all duration-150 hover:bg-red-50/80 hover:text-red-600"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100">
-            <FiLogOut />
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-colors group-hover:bg-red-100 group-hover:text-red-600">
+            <FiLogOut className="text-sm" />
           </span>
-          Sign out
+          <span>Sign out</span>
         </button>
       </div>
     </div>
   );
 
   return (
-    <div className="dashboard-font min-h-screen bg-[#f5f6fa] text-slate-900">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[258px] border-r border-slate-200 shadow-[4px_0_18px_rgba(15,23,42,0.03)] lg:block">
+    <div className="dashboard-font min-h-screen bg-[#f8fafc] text-slate-900">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[258px] border-r border-slate-200/80 bg-white shadow-[1px_0_10px_rgba(15,23,42,0.02)] lg:block">
         {sidebar}
       </aside>
 
@@ -194,16 +200,16 @@ export default function DashboardLayout({
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             aria-label="Close menu"
-            className="absolute inset-0 bg-[#071a33]/55 backdrop-blur-sm"
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileOpen(false)}
           />
           <aside className="relative h-full w-[280px] shadow-2xl">
             <button
               aria-label="Close menu"
               onClick={() => setMobileOpen(false)}
-              className="absolute right-3 top-3 z-10 rounded-lg bg-slate-100 p-2 text-slate-600"
+              className="absolute right-3 top-3 z-10 rounded-lg bg-slate-100 p-1.5 text-slate-600 transition hover:bg-slate-200"
             >
-              <FiX />
+              <FiX className="text-base" />
             </button>
             {sidebar}
           </aside>
@@ -211,62 +217,71 @@ export default function DashboardLayout({
       )}
 
       <div className="lg:pl-[258px]">
-        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
-          <div className="flex min-h-[74px] items-center gap-3 px-4 py-3 sm:px-6 xl:px-8">
-            <button
-              onClick={() => setMobileOpen(true)}
-              className="rounded-lg border border-slate-200 p-2.5 text-slate-600 lg:hidden"
-              aria-label="Open menu"
-            >
-              <FiMenu className="text-lg" />
-            </button>
+        <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/85 backdrop-blur-md">
+          <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 xl:px-8">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="rounded-lg border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 lg:hidden"
+                aria-label="Open menu"
+              >
+                <FiMenu className="text-lg" />
+              </button>
 
-            <div className="min-w-0 flex-1">
-              <h1 className="text-lg font-bold text-[#071a33] sm:text-2xl">
-                {title}
-              </h1>
-              <p className="mt-1 text-xs font-medium text-slate-400">
-                Dashboard <span className="mx-1 text-slate-300">/</span>{" "}
-                <span className="text-[#0b7a4b]">{eyebrow}</span>
-              </p>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2.5">
+                  <h1 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+                    {title}
+                  </h1>
+                  {eyebrow && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-800">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      {eyebrow}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
 
-            <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-3">
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen((value) => !value)}
-                  className="flex items-center gap-2 rounded-lg p-1.5 transition hover:bg-slate-50 sm:gap-3"
+                  className="group flex items-center gap-2.5 rounded-xl border border-slate-200/80 bg-white p-1.5 pr-2.5 shadow-2xs transition-all hover:border-slate-300 hover:shadow-xs"
                 >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#071a33] text-sm font-bold text-white ring-2 ring-slate-100">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white">
                     {currentUser.fullName.charAt(0).toUpperCase()}
                   </span>
-                  <span className="hidden text-left sm:block">
-                    <span className="block max-w-36 truncate text-sm font-semibold text-[#071a33]">
+                  <div className="hidden text-left sm:block">
+                    <span className="block max-w-36 truncate text-xs font-semibold text-slate-900 leading-tight">
                       {currentUser.fullName}
                     </span>
-                    <span className="block text-[11px] font-medium text-slate-400">
+                    <span className="block text-[10px] font-medium text-slate-400 leading-tight">
                       {roleLabel(currentUser.role)}
                     </span>
-                  </span>
-                  <FiChevronDown className="hidden text-slate-400 sm:block" />
+                  </div>
+                  <FiChevronDown className="text-xs text-slate-400 transition-transform duration-150 group-hover:translate-y-0.5" />
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 top-12 w-56 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
-                    <div className="border-b border-slate-100 px-3 py-2">
-                      <p className="truncate text-sm font-semibold text-[#071a33]">
+                  <div className="absolute right-0 top-12 w-60 rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 animate-in fade-in-50 zoom-in-95 duration-100 z-50">
+                    <div className="border-b border-slate-100 px-3 py-2.5">
+                      <p className="truncate text-xs font-semibold text-slate-900">
                         {currentUser.fullName}
                       </p>
-                      <p className="truncate text-xs text-slate-400">
+                      <p className="truncate text-[11px] text-slate-400">
                         {currentUser.email}
                       </p>
                     </div>
-                    <button
-                      onClick={logout}
-                      className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
-                    >
-                      <FiLogOut /> Sign out
-                    </button>
+                    <div className="pt-1">
+                      <button
+                        onClick={logout}
+                        className="group flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-red-600 transition hover:bg-red-50"
+                      >
+                        <FiLogOut className="text-sm transition-transform group-hover:scale-110" />
+                        <span>Sign out</span>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -274,7 +289,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="mx-auto max-w-[1600px] p-4 sm:p-6 xl:p-8">
+        <main className="dashboard-page-transition mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
           {children}
         </main>
       </div>

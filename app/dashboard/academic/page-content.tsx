@@ -438,7 +438,7 @@ export default function AcademicSetup({
           {selectedYear?.cohorts.map((cohort) => (
             <article
               key={cohort.id}
-              className="rounded-2xl border border-slate-200 p-5 transition hover:border-emerald-300 hover:shadow-sm"
+              className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg"
             >
               {canManage && (
                 <div className="mb-3 flex justify-end">

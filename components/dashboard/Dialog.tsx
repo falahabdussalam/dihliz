@@ -79,7 +79,7 @@ export function Dialog({
           type="button"
           aria-label="Close dialog"
           onClick={close}
-          className="rounded-lg px-3 py-2 hover:bg-slate-100"
+          className="rounded-lg px-3 py-2 text-slate-400 transition-all duration-200 hover:bg-slate-100 hover:text-slate-700 hover:rotate-90 active:scale-95"
         >
           ✕
         </button>
@@ -95,14 +95,14 @@ export function Dialog({
               <button
                 type="button"
                 onClick={() => setDiscard(false)}
-                className="rounded-lg border px-4 py-2"
+                className="rounded-lg border border-slate-200 bg-white px-4 py-2 font-medium text-slate-700 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-sm active:translate-y-0"
               >
                 Keep editing
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg bg-red-700 px-4 py-2 text-white"
+                className="rounded-lg bg-red-700 px-4 py-2 font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-red-800 hover:shadow-md active:translate-y-0"
               >
                 Discard changes
               </button>
@@ -135,8 +135,8 @@ export default function Modal({
         onClick={() => setOpen(true)}
         className={
           primary
-            ? "rounded-lg bg-[#0b7a4b] px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800"
-            : "rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-[#0b7a4b] hover:bg-emerald-50"
+            ? "rounded-lg bg-[#0b7a4b] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-emerald-800 hover:shadow-md active:translate-y-0"
+            : "rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-[#0b7a4b] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50/60 hover:shadow-md active:translate-y-0"
         }
       >
         {trigger ?? title}

@@ -64,10 +64,10 @@ export default function Popover({
           }
           setOpen(!open);
         }}
-        className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium hover:bg-slate-50"
+        className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-sm active:translate-y-0"
       >
         {label}
-        <span aria-hidden>⌄</span>
+        <span aria-hidden className="transition-transform duration-200 group-hover:translate-y-0.5">⌄</span>
       </button>
       {open && (
         <div

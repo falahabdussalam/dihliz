@@ -75,20 +75,16 @@ export default function Login() {
           </div>
 
           <div className="relative z-10 max-w-md">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-slate-300/80">
-              Dihliz School ERP
-            </p>
-            <h1 className="text-4xl font-bold leading-[1.15] tracking-tight xl:text-[2.75rem]">
-              One place for every student, every day, every year.
+            <h1 className="text-3xl font-bold leading-tight tracking-tight xl:text-4xl">
+              One platform. Endless possibilities.
             </h1>
-            <p className="mt-5 text-base leading-relaxed text-slate-300/90">
-              Manage academics, attendance, assessments and 360° reports
-              through a secure academic-year workspace.
+            <p className="mt-3 text-sm leading-relaxed text-slate-300/80">
+              Academics, attendance, and administration.
             </p>
           </div>
 
           <p className="relative z-10 text-xs tracking-wide text-slate-400/80">
-            Dihliz World School · Poonoor
+            Dihliz World School
           </p>
         </section>
 
@@ -101,15 +97,12 @@ export default function Login() {
             className="mx-auto mb-8 h-12 w-fit rounded-lg border border-slate-100 bg-white px-3 py-1.5 shadow-sm lg:hidden"
           />
 
-          <div className="mb-9">
-            <p className="mb-1.5 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-emerald-700">
-              Secure staff access
-            </p>
-            <h2 className="text-3xl font-bold tracking-tight text-[#0a1c2f]">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold tracking-tight text-[#0a1c2f] sm:text-3xl">
               Welcome back
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500">
-              Sign in with your staff account to open the dashboard.
+            <p className="mt-1.5 text-sm text-slate-500">
+              Sign in to access your dashboard.
             </p>
           </div>
 
@@ -164,7 +157,7 @@ export default function Login() {
               disabled={submitting}
               className="group mt-1 flex w-full items-center justify-center gap-2.5 rounded-lg bg-emerald-700 px-4 py-3.5 text-sm font-bold tracking-tight text-white shadow-[0_6px_14px_-4px_rgba(14,107,75,0.35)] transition hover:bg-emerald-800 hover:shadow-[0_10px_18px_-6px_rgba(14,107,75,0.4)] active:scale-[0.98] disabled:cursor-wait disabled:opacity-60 disabled:shadow-none"
             >
-              {submitting ? "Signing in..." : "Open dashboard"}
+              {submitting ? "Signing in..." : "Sign in"}
               {!submitting && (
                 <FiArrowRight
                   size={18}

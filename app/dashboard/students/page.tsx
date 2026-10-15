@@ -99,7 +99,10 @@ export default async function Students({
         </thead>
         <tbody className="divide-y divide-slate-100">
           {rows.map((row) => (
-            <tr key={row.id} className="hover:bg-slate-50">
+            <tr
+              key={row.id}
+              className="group/row transition-all duration-200 hover:bg-emerald-50/25 hover:shadow-[inset_3px_0_0_0_#0b7a4b]"
+            >
               {scope.admin && (
                 <td className="p-3">
                   <input
@@ -113,7 +116,7 @@ export default async function Students({
               )}
               <td className="p-3">
                 <Link
-                  className="font-semibold text-[#0b7a4b] hover:underline"
+                  className="font-semibold text-[#0b7a4b] transition-colors duration-150 hover:text-emerald-800 hover:underline"
                   href={
                     "/dashboard/students/" +
                     row.studentId +
