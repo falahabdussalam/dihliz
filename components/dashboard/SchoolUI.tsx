@@ -4,10 +4,13 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+
 export const inputClass =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100";
+  "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-emerald-600 focus:outline-none focus:ring-4 focus:ring-emerald-500/10";
+
 export const linkClass =
-  "inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-[#0b7a4b] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50/60 hover:text-emerald-800 hover:shadow-md active:translate-y-0";
+  "inline-flex items-center gap-2 rounded-xl border border-slate-200/80 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50/50 hover:text-emerald-800 hover:shadow-sm active:translate-y-0";
+
 export function Panel({
   title,
   children,
@@ -16,12 +19,15 @@ export function Panel({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
-      <h2 className="text-lg font-semibold border-b p-5 py-3.5 border-slate-200 text-[#071a33]">{title}</h2>
-      <div className="p-5">{children}</div>
+    <section className="rounded-2xl border border-slate-200/80 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.03)] transition-all duration-200">
+      <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+        <h3 className="text-base font-bold tracking-tight text-slate-900">{title}</h3>
+      </div>
+      <div className="p-6">{children}</div>
     </section>
   );
 }
+
 export function Field({
   label,
   children,
@@ -30,8 +36,8 @@ export function Field({
   children: ReactNode;
 }) {
   return (
-    <label className="block min-w-0 text-xs font-medium text-slate-600">
-      <span className="mb-1.5 block">{label}</span>
+    <label className="block min-w-0 text-xs font-semibold text-slate-700">
+      <span className="mb-1.5 block tracking-wide">{label}</span>
       {isValidElement(children)
         ? cloneElement(children as ReactElement<{ "aria-label"?: string }>, {
             "aria-label": label,
@@ -40,16 +46,24 @@ export function Field({
     </label>
   );
 }
+
 export function Badge({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/60 bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+      <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
       {children}
     </span>
   );
 }
+
 export function Empty({ children }: { children: ReactNode }) {
-  return <p className="py-8 text-center text-sm text-slate-500">{children}</p>;
+  return (
+    <div className="py-12 text-center">
+      <p className="text-sm font-medium text-slate-400">{children}</p>
+    </div>
+  );
 }
+
 export function Stats({
   items,
 }: {
@@ -60,12 +74,17 @@ export function Stats({
       {items.map((item) => (
         <div
           key={item.label}
-          className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md"
+          className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_1px_3px_rgba(15,23,42,0.03)] transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-md"
         >
-          <p className="text-xs text-slate-500 transition-colors duration-200 group-hover:text-slate-700">{item.label}</p>
-          <p className="mt-2 text-2xl font-bold text-[#071a33] transition-colors duration-200 group-hover:text-[#0b7a4b]">{item.value}</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            {item.label}
+          </p>
+          <p className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 transition-colors duration-200 group-hover:text-emerald-700">
+            {item.value}
+          </p>
         </div>
       ))}
     </div>
   );
 }
+
