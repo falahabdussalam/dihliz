@@ -174,19 +174,45 @@ body {
 }
 
 /* Smooth Page & Component Transition */
-@keyframes dashboardPageFadeIn {
-  from {
-    opacity: 0.7;
-    transform: translateY(4px);
+@keyframes dashboardPageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 .dashboard-page-transition {
-  animation: dashboardPageFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: dashboardPageEnter 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* Sleek Top Navigation Progress Bar Shimmer */
+@keyframes navBarSweep {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.8);
+    opacity: 1;
+  }
+  90% {
+    transform: scaleX(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+.animate-nav-bar {
+  animation: navBarSweep 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: left;
 }
 
 /* Smooth Indeterminate Top Loading Bar */
@@ -205,5 +231,12 @@ body {
 .animate-loading-bar {
   animation: loadingBarProgress 1.4s ease-in-out infinite;
   transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-page-transition,
+  .animate-nav-bar {
+    animation: none !important;
+  }
 }
 

@@ -15,6 +15,7 @@ export default function Tabs({
         <Link
           key={item.id}
           href={item.href}
+          prefetch={true}
           aria-current={active === item.id ? "page" : undefined}
           className={
             "whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-all duration-150 " +

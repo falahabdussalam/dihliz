@@ -217,6 +217,15 @@ export default function DashboardLayout({
       )}
 
       <div className="lg:pl-[258px]">
+        {/* Sleek Top Navigation Progress Indicator */}
+        <div
+          key={`nav-progress-${pathname}`}
+          className="pointer-events-none fixed inset-x-0 top-0 z-50 h-[2.5px] overflow-hidden"
+          aria-hidden="true"
+        >
+          <div className="h-full w-full bg-gradient-to-r from-emerald-600 via-teal-400 to-emerald-500 animate-nav-bar" />
+        </div>
+
         <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/85 backdrop-blur-md">
           <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 xl:px-8">
             <div className="flex items-center gap-3">
@@ -289,8 +298,10 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="dashboard-page-transition mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
-          {children}
+        <main className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
+          <div key={pathname} className="dashboard-page-transition">
+            {children}
+          </div>
         </main>
       </div>
     </div>
