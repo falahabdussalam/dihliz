@@ -443,11 +443,11 @@ export default async function Exams({
                   {exams.map((exam) => (
                     <tr
                       key={exam.id}
-                      className="transition hover:bg-slate-50/80"
+                      className="group/row transition-all duration-200 hover:bg-emerald-50/25 hover:shadow-[inset_3px_0_0_0_#0b7a4b]"
                     >
                       <td className="px-4 py-3">
                         <Link
-                          className="font-semibold text-emerald-700 hover:underline"
+                          className="font-semibold text-emerald-700 transition-colors duration-150 hover:text-emerald-900 hover:underline"
                           prefetch={false}
                           href={"/dashboard/exams/" + exam.id}
                         >
@@ -504,11 +504,11 @@ export default async function Exams({
                       key={exam.id}
                       prefetch={false}
                       href={"/dashboard/exams/" + exam.id}
-                      className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-emerald-200 hover:shadow-md"
+                      className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg"
                     >
                       <div>
                         <div className="mb-3 flex items-start justify-between gap-2">
-                          <h3 className="text-base font-semibold text-slate-800 group-hover:text-emerald-700">
+                          <h3 className="text-base font-semibold text-slate-800 transition-colors duration-200 group-hover:text-[#0b7a4b]">
                             {exam.title}
                           </h3>
                           <ExamStatus exam={exam} />

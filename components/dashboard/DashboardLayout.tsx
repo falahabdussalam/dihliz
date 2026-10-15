@@ -80,23 +80,29 @@ export default function DashboardLayout({
         <Link
           key={item.href}
           href={item.href}
+          prefetch={true}
           onClick={() => setMobileOpen(false)}
           className={
             active
-              ? "flex items-center gap-3 rounded-lg bg-emerald-50 px-3 py-2.5 text-sm font-semibold text-[#0b7a4b]"
-              : "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#0b7a4b]"
+              ? "group relative flex items-center gap-3 rounded-xl bg-emerald-50/90 px-3 py-2.5 text-sm font-semibold text-[#0b7a4b] shadow-[0_1px_3px_rgba(11,122,75,0.08)] transition-all duration-200"
+              : "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-all duration-200 hover:bg-emerald-50/60 hover:text-[#0b7a4b] hover:translate-x-1"
           }
         >
+          {active && (
+            <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-[#0b7a4b]" />
+          )}
           <span
             className={
               active
-                ? "flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b7a4b] text-white shadow-sm"
-                : "flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-500"
+                ? "flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b7a4b] text-white shadow-sm transition-transform duration-200 group-hover:scale-105"
+                : "flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-all duration-200 group-hover:scale-110 group-hover:bg-[#0b7a4b]/10 group-hover:text-[#0b7a4b]"
             }
           >
             <Icon className="text-base" />
           </span>
-          {item.label}
+          <span className="transition-transform duration-200 group-hover:translate-x-0.5">
+            {item.label}
+          </span>
         </Link>
       );
     });
@@ -173,12 +179,14 @@ export default function DashboardLayout({
       <div className="border-t border-slate-200 p-4">
         <button
           onClick={logout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-red-50 hover:text-red-600"
+          className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:translate-x-1"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 transition-all duration-200 group-hover:scale-110 group-hover:bg-red-100 group-hover:text-red-600">
             <FiLogOut />
           </span>
-          Sign out
+          <span className="transition-transform duration-200 group-hover:translate-x-0.5">
+            Sign out
+          </span>
         </button>
       </div>
     </div>
@@ -201,7 +209,7 @@ export default function DashboardLayout({
             <button
               aria-label="Close menu"
               onClick={() => setMobileOpen(false)}
-              className="absolute right-3 top-3 z-10 rounded-lg bg-slate-100 p-2 text-slate-600"
+              className="absolute right-3 top-3 z-10 rounded-lg bg-slate-100 p-2 text-slate-600 transition-all duration-200 hover:bg-slate-200 hover:rotate-90"
             >
               <FiX />
             </button>
@@ -215,7 +223,7 @@ export default function DashboardLayout({
           <div className="flex min-h-[74px] items-center gap-3 px-4 py-3 sm:px-6 xl:px-8">
             <button
               onClick={() => setMobileOpen(true)}
-              className="rounded-lg border border-slate-200 p-2.5 text-slate-600 lg:hidden"
+              className="rounded-lg border border-slate-200 p-2.5 text-slate-600 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50/60 hover:text-[#0b7a4b] lg:hidden"
               aria-label="Open menu"
             >
               <FiMenu className="text-lg" />
@@ -235,20 +243,20 @@ export default function DashboardLayout({
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen((value) => !value)}
-                  className="flex items-center gap-2 rounded-lg p-1.5 transition hover:bg-slate-50 sm:gap-3"
+                  className="group flex items-center gap-2 rounded-xl border border-transparent p-1.5 transition-all duration-200 hover:border-slate-200 hover:bg-slate-50/80 hover:shadow-sm sm:gap-3"
                 >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#071a33] text-sm font-bold text-white ring-2 ring-slate-100">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#071a33] text-sm font-bold text-white ring-2 ring-slate-100 transition-all duration-200 group-hover:scale-105 group-hover:ring-emerald-400/40">
                     {currentUser.fullName.charAt(0).toUpperCase()}
                   </span>
                   <span className="hidden text-left sm:block">
-                    <span className="block max-w-36 truncate text-sm font-semibold text-[#071a33]">
+                    <span className="block max-w-36 truncate text-sm font-semibold text-[#071a33] transition-colors duration-200 group-hover:text-[#0b7a4b]">
                       {currentUser.fullName}
                     </span>
                     <span className="block text-[11px] font-medium text-slate-400">
                       {roleLabel(currentUser.role)}
                     </span>
                   </span>
-                  <FiChevronDown className="hidden text-slate-400 sm:block" />
+                  <FiChevronDown className="hidden text-slate-400 transition-transform duration-200 group-hover:translate-y-0.5 sm:block" />
                 </button>
 
                 {profileOpen && (
@@ -263,9 +271,9 @@ export default function DashboardLayout({
                     </div>
                     <button
                       onClick={logout}
-                      className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                      className="group mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-all duration-150 hover:bg-red-50 hover:translate-x-0.5"
                     >
-                      <FiLogOut /> Sign out
+                      <FiLogOut className="transition-transform duration-150 group-hover:scale-110" /> Sign out
                     </button>
                   </div>
                 )}
@@ -274,7 +282,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="mx-auto max-w-[1600px] p-4 sm:p-6 xl:p-8">
+        <main className="dashboard-page-transition mx-auto max-w-[1600px] p-4 sm:p-6 xl:p-8">
           {children}
         </main>
       </div>

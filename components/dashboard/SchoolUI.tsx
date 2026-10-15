@@ -7,7 +7,7 @@ import {
 export const inputClass =
   "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100";
 export const linkClass =
-  "inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-[#0b7a4b] hover:bg-emerald-50";
+  "inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-[#0b7a4b] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50/60 hover:text-emerald-800 hover:shadow-md active:translate-y-0";
 export function Panel({
   title,
   children,
@@ -16,7 +16,7 @@ export function Panel({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
       <h2 className="text-lg font-semibold border-b p-5 py-3.5 border-slate-200 text-[#071a33]">{title}</h2>
       <div className="p-5">{children}</div>
     </section>
@@ -60,10 +60,10 @@ export function Stats({
       {items.map((item) => (
         <div
           key={item.label}
-          className="rounded-xl border border-slate-200 bg-white p-5"
+          className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md"
         >
-          <p className="text-xs text-slate-500">{item.label}</p>
-          <p className="mt-2 text-2xl font-bold text-[#071a33]">{item.value}</p>
+          <p className="text-xs text-slate-500 transition-colors duration-200 group-hover:text-slate-700">{item.label}</p>
+          <p className="mt-2 text-2xl font-bold text-[#071a33] transition-colors duration-200 group-hover:text-[#0b7a4b]">{item.value}</p>
         </div>
       ))}
     </div>
